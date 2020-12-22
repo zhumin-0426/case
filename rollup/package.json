@@ -1,0 +1,30 @@
+{
+  "name": "rollup",
+  "version": "1.0.0",
+  "description": "\"this is rollup case\"",
+  "main": "bundle-2.js",
+  "scripts": {
+    "build": "rollup src/main.js -o bundle.js -f cjs"
+  },
+  "keywords": [
+    "rollup.js"
+  ],
+  "author": "\"Mrzhu\"",
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-json": "^4.1.0",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-eslint": "^7.0.0",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "^7.0.2"
+  },
+  "dependencies": {
+    "@babel/core": "^7.12.9",
+    "@babel/plugin-transform-runtime": "^7.12.1",
+    "@babel/preset-env": "^7.12.7",
+    "core-js": "^3.8.1",
+    "the-answer": "^1.0.0"
+  }
+}

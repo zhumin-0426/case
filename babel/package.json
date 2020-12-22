@@ -1,0 +1,21 @@
+{
+  "name": "babel.js",
+  "version": "1.0.0",
+  "description": "this is babel",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel src -d lib"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "babel-cli": "^6.26.0",
+    "babel-register": "^6.26.0"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.12.1"
+  }
+}

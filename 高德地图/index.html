@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript"
+        src="https://webapi.amap.com/maps?v=1.4.15&key=43e2eddb4aa9e755eb0f41ad130447f4"></script>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <title>高德地图</title>
+</head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        text-decoration: none;
+    }
+
+    #container {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+<body>
+    <div id="container"></div>
+</body>
+<script>
+    var map = new AMap.Map('container', {
+        zoom: 14,
+        center: [113.23, 23.16]
+    });
+    AMap.plugin('AMap.ToolBar', function () {//异步加载插件
+        var toolbar = new AMap.ToolBar();
+        map.addControl(toolbar);
+    });
+</script>
+
+</html>
