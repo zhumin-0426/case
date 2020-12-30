@@ -80,6 +80,5 @@
         window.location = "http://lb.28888753.cn/map/gd_map2/mapDel.html?id="+id;
     }
     init.getQuery();
-    console.log('uni-app通讯成功', userid);  //获取 uni-app 传来的值
     init.wsQuery(userid);
 })({});

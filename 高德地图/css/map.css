@@ -40,7 +40,43 @@
 .container .tab-obj .tab-obj-item {
     display: none;
 }
+.tab-obj .tab-obj-item .list {
+   box-sizing: border-box;
+   width: 100%;
+   padding-left: 16px;
 
+}
+.tab-obj-item .list .list-item{
+    box-sizing: border-box;
+    width: 100%;
+    padding: 8px 22px 8px 0;
+    border-bottom: solid 1px #e0e0e0;
+}
+.list .list-item .user-msg{
+    display: flex;
+    align-items: center;
+}
+.list-item .user-msg img{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 6px;
+}
+.list-item .user-msg span{
+    font-size: 14px;
+}
+.list-item .address span{
+   font-size: 12px;
+}
+.list-item .address span:first-child{
+    color: #888888;
+}
+.list-item .why span{
+    font-size: 12px;
+ }
+ .list-item .why span:first-child{
+     color: #888888;
+ }
 .container .tab-obj .tab-obj-active {
     display: block;
     width: 100%;
