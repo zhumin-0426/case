@@ -1,0 +1,196 @@
+* {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    text-decoration: none;
+}
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.container .tab {
+    width: 100%;
+    display: flex;
+    border-top: 1px solid #F5F5F5;
+    box-shadow: 1px 1px 5px rgba(128, 128, 128, 0.1);
+}
+
+.container .tab .tab-item {
+    text-align: center;
+    width: 33.333%;
+    font-size: 12px;
+    color: #888888;
+    padding: 8px 0 10px 0;
+}
+
+.container .tab .tab-item-active {
+    color: #e67817;
+    border-bottom: solid 2px #e67817;
+}
+
+.container .tab-obj {
+    flex: 1;
+    width: 100%;
+}
+
+.container .tab-obj .tab-obj-item {
+    display: none;
+}
+
+.container .tab-obj .tab-obj-active {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.tab-obj .tab-obj-active .wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+.tab-obj-active .wrapper #amap {
+    width: 100%;
+    height: 100%;
+}
+/* 点标记 */
+.marker-box {
+    width: 87px;
+    height: 45px;
+    background-image: url('../images/marker-bag-icon.png');
+    background-position: 0 0;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    position: relative;
+}
+
+.marker-box .marker-cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.marker-box .user-pic {
+    width: 25px;
+    height: 25px;
+    border: solid 1px #fff;
+    border-radius: 50%;
+    margin-top: 5px;
+    margin-left: 5px;
+    float: left;
+    background-color: #fff;
+}
+
+.marker-box .user-pic img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.marker-box .user-name {
+    font-size: 13px;
+    float: left;
+    color: #fff;
+    font-weight: 500;
+    margin-top: 9px;
+    margin-left: 3px;
+}
+/* 覆盖层 */
+.wrapper .cover {
+    position: fixed;
+    top: 43px;
+    left: 15px;
+    width: 150px;
+    background-color: #ffffff;
+    box-shadow: 1px 1px 5px 0 #ccc;
+    border-radius: 20px;
+}
+
+.wrapper .cover .user-list {
+    padding: 5px 6px;
+    overflow: hidden;
+}
+
+.cover .user-list .user-list-item {
+    float: left;
+    margin-right: 6px;
+}
+
+.user-list .user-list-item .user-pic {
+    width: 30px;
+    height: 30px;
+}
+
+.user-list-item .user-pic img {
+    display: block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.cover .user-list .more {
+    width: 30px;
+    height: 30px;
+    float: left;
+}
+
+.user-list .more img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.wrapper .cover-active {
+    position: fixed;
+    top: 87px;
+    left: 15px;
+    width: 320px;
+    background-color: #ffffff;
+    box-shadow: 1px 1px 5px 0 #ccc;
+    border-radius: 20px;
+}
+
+.wrapper .cover-active .user-list {
+    padding: 5px 6px;
+    overflow: hidden;
+}
+
+.cover-active .user-list .user-list-item {
+    margin-bottom: 5px;
+    float: left;
+    margin-right: 6px;
+}
+
+.user-list .user-list-item .user-pic {
+    width: 30px;
+    height: 30px;
+}
+
+.user-list-item .user-pic img {
+    display: block;
+    max-width: 30px;
+    max-height: 30px !important;
+    border-radius: 50%;
+}
+
+.cover-active .user-list .more {
+    width: 30px;
+    height: 30px;
+    float: left;
+}
+
+.user-list .more img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}

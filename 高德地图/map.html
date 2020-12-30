@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="./css/map.css">
+    <title>外勤轨迹</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="tab">
+            <div class="tab-item tab-item-active" data-idx="0">在线</div>
+            <div class="tab-item" data-idx="1">失联</div>
+            <div class="tab-item" data-idx="2">无需定位</div>
+        </div>
+        <div class="tab-obj">
+            <div class="tab-obj-item tab-obj-active">
+                <div class="wrapper">
+                    <div id="amap"></div>
+                    <div class="cover">
+                        <div class="user-list">
+                            <div class="more">
+                                <img src="./images/more.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-obj-item">
+                2
+            </div>
+            <div class="tab-obj-item">3</div>
+        </div>
+    </div>
+</body>
+<script src="./js/jquery.js"></script>
+<script type="text/javascript"
+    src="https://webapi.amap.com/maps?v=1.4.15&key=2215ddaebe0c09547906ac13eef5b0db"></script>
+<script src="./js/map.js"></script>
+<script>
+    $('.tab .tab-item').click(function () {
+        $(this).addClass('tab-item-active').siblings().removeClass('tab-item-active');
+        $('.tab-obj .tab-obj-item').eq($(this).index()).addClass('tab-obj-active').siblings().removeClass('tab-obj-active');
+    })
+</script>
+
+</html>

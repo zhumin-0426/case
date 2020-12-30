@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/mapDel.css">
+    <title>外勤轨迹详细</title>
+</head>
+<style>
+    #amap {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div id="amap"></div>
+    </div>
+</body>
+<script type="text/javascript"
+    src="https://webapi.amap.com/maps?v=1.4.15&key=2215ddaebe0c09547906ac13eef5b0db"></script>
+<script>
+    (function (init) {
+        // 数据初始化
+        init.initData = () => {
+            let userid = window.location.search.split('=')[1];
+            console.log('userid',userid);
+            var ws = new WebSocket("ws://lb.28888753.cn:8080/shunde/webSocket/" + userid);
+            let msg_obj = {
+                userid: userid
+            }
+            ws.onopen = function (res) {
+                if (ws.readyState === 1) {
+                    ws.send(
+                        '{"To":"Location","msg":' + JSON.stringify(msg_obj) + '}'
+                    );
+                }
+            };
+            ws.onmessage = function (res) {
+                let data = JSON.parse(res.data);
+                init.initMap(data)
+            }
+        }
+        // 高德地图初始化
+        init.initMap = (data) => {
+            let lon = data.location[data.location.length - 1].longitudePoint;
+            let lat = data.location[data.location.length - 1].dimensionPoint;
+            let map = new AMap.Map('amap', {
+                resizeEnable: true,
+                center: [lon, lat],
+                zoom: 13
+            });
+            init.mapShow(map, data);
+        }
+        init.mapShow = (map, data) => {
+            // 点标记
+            console.log("data", data);
+            let lon = data.location[data.location.length - 1].longitudePoint;
+            let lat = data.location[data.location.length - 1].dimensionPoint;
+            let pic = data.heard;
+            let name = data.name;
+            let content =
+                `<div class="marker-box">
+					  <div class="user-pic">
+					      <img src="${pic}" />
+					  </div>
+					  <div class="user-name">${name}</div>
+					</div>`
+            let marker = new AMap.Marker({
+                content: content,
+                position: new AMap.LngLat(lon, lat)
+            });
+            map.add(marker);
+            // 路线
+            let path = [];
+            data.location.forEach((item) => {
+                path.push([item.longitudePoint, item.dimensionPoint])
+            })
+            map.plugin("AMap.DragRoute", function () {
+                let route;
+                route = new AMap.DragRoute(map, path, AMap.DrivingPolicy.LEAST_FEE); //构造拖拽导航类
+                route.search(); //查询导航路径并开启拖拽导航
+            });
+        },
+            init.initData()
+    })({})
+</script>
+
+</html>
