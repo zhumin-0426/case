@@ -82,11 +82,10 @@
     </div>
 </body>
 <script src="./js/jquery.js"></script>
-<script type="text/javascript"
-    src="https://webapi.amap.com/maps?v=1.4.15&key=2215ddaebe0c09547906ac13eef5b0db"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=2215ddaebe0c09547906ac13eef5b0db"></script>
 <script src="./js/map.js"></script>
 <script>
-    $('.tab .tab-item').click(function () {
+    $('.tab .tab-item').click(function() {
         $(this).addClass('tab-item-active').siblings().removeClass('tab-item-active');
         $('.tab-obj .tab-obj-item').eq($(this).index()).addClass('tab-obj-active').siblings().removeClass('tab-obj-active');
     })
