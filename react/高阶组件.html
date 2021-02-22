@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <title>react.js高阶组件</title>
+</head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        text-decoration: none;
+    }
+</style>
+
+<body>
+    <div id="root"></div>
+</body>
+<script type="text/babel">
+    class App extends React.Component {
+        constructor(props) {
+            super(props);
+        }
+        render() {
+            return (
+                <div className="app">
+                    这是一个app应用
+                </div>
+            )
+        }
+    }
+    function AppChildCompoment(props) {
+        return (
+            <div className="app-child-component">
+                这是app的一个子应用
+            </div>
+        )
+    }
+    const domContainer = document.querySelector('#root');
+    ReactDOM.render(<App></App>, domContainer);
+</script>
+
+</html>
