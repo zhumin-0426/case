@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <title>react基础语法</title>
+</head>
+
+<body>
+    <div id="root"></div>
+</body>
+<script type="text/babel">
+    // 简单的计时器
+    // function time() {
+    //     const element = <div className="time">这是一个react的基础语法 {new Date().toLocaleTimeString()}</div>;
+    //     ReactDOM.render(
+    //         element,
+    //         document.getElementById("root")
+    //     );
+    // }
+    // setInterval(() => {
+    //     time()
+    // }, 1000);
+
+    // 组件计时器
+    class Tiem extends React.Component {
+        constructor(props) {
+            super(props)
+            // 定义初始状态
+            this.state = {
+                date: new Date()
+            }
+        }
+        // 组件挂载时
+        componentDidMount() {
+            this.timeID = setInterval(() => {
+                this.tick()
+            }, 1000);
+        }
+        // 组件卸载时
+        componentWillUnmount() {
+            clearInterval(this.timeID)
+        }
+        // 更改自身状态的函数
+        tick() {
+            this.setState({
+                date: new Date()
+            })
+        }
+        render() {
+            return (
+                <div className="time">{this.state.date.toLocaleTimeString()}</div>
+            )
+        }
+    }
+    ReactDOM.render(
+        <Tiem />,
+        document.getElementById("root")
+    );
+</script>
+
+</html>
