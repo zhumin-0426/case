@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>淘宝放大镜</title>
+</head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        text-decoration: none;
+    }
+
+    .bigImg-box {
+        width: 100px;
+        height: 75px;
+        margin: 0 auto;
+    }
+
+    .bigImg-box img {
+        width: inherit;
+        height: inherit;
+    }
+
+    .cover {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgb(0, 0, 0);
+        display: flex;
+        display: none;
+    }
+
+    .cover .delete-icon {
+        width: 40px;
+        height: 40px;
+        position: fixed;
+        top: 10px;
+        left: 10px;
+    }
+
+    .cover .delete-icon img {
+        display: block;
+        width: inherit;
+        height: inherit;
+    }
+
+    .cover .big-img {
+        width: 100%;
+        align-self: center;
+    }
+
+    .cover .big-img img {
+        display: block;
+        width: inherit;
+    }
+
+    .cover .page-num {
+        color: #fff;
+        position: fixed;
+        right: 10px;
+        bottom: 10px;
+    }
+</style>
+
+<body>
+    <div class="mirror">
+        <div class="bigImg-box">
+            <img src="../images/cat.jpg" alt="">
+        </div>
+        <div class="cover">
+            <div class="delete-icon">
+                <img src="../images/delete.png" alt="">
+            </div>
+            <div class="big-img">
+                <img src="../images/cat.jpg" alt="">
+            </div>
+            <div class="page-num">1/5</div>
+        </div>
+    </div>
+</body>
+<script>
+    var bigImgBox = document.getElementsByClassName("bigImg-box");
+    var bigImg = document.getElementsByClassName("big-img");
+    for (var i = 0; i < bigImgBox.length; i++) {
+        var img = bigImgBox[i].getElementsByTagName('img');
+        var src = img[i].getAttribute('src');
+        bigImgBox[i].onclick = function () {
+            console.log(img)
+        }
+    }
+</script>
+
+</html>
