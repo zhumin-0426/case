@@ -23,39 +23,116 @@
     <div id="root"></div>
 </body>
 <script type="text/babel">
-    class App extends React.Component {
+    //数据源
+    const DataSource = {
+        data: [
+            { id: 1, txt: "text1" },
+            { id: 2, txt: "text2" },
+            { id: 3, txt: "text3" },
+            { id: 4, txt: "text4" },
+        ],
+        // 获取数据函数
+        getComments: function () {
+            console.log("获取数据")
+            return this.data
+        },
+        // 订阅更改
+        addChangeListener: function (setFun) {
+            console.log("订阅更改")
+            setFun()
+        },
+        // 清除订阅
+        removeChangeListener: function (setFun) {
+            console.log("清除订阅")
+            setFun()
+        },
+    }
+    // 评论列表
+    class CommentList extends React.Component {
         constructor(props) {
             super(props);
+            this.handleChange = this.handleChange.bind(this);
+            this.state = {
+                // 假设 "DataSource" 是个全局范围内的数据源变量
+                comments: DataSource.getComments()
+            };
         }
-        // 渲染出备用UI
-        static getDerivedStateFromError(error) {
-            // 更新 state 使下一次渲染能够显示降级后的 UI
-            return { hasError: true };
+
+        componentDidMount() {
+            // 订阅更改
+            DataSource.addChangeListener(this.handleChange);
         }
-        // 打印错误信息
-        componentDidCatch(error, errorInfo) {
-            // 你同样可以将错误日志上报给服务器
-            logErrorToMyService(error, errorInfo);
+
+        componentWillUnmount() {
+            // 清除订阅
+            DataSource.removeChangeListener(this.handleChange);
         }
-        render() {  
-            const ref = React.createRef()
+
+        handleChange() {
+            // 当数据源更新时，更新组件状态
+            this.setState({
+                comments: DataSource.getComments()
+            });
+        }
+
+        render() {
             return (
-                <div className="app">
-                    <div className="txt">这是一个app应用</div>
-                    <AppChildCompoment ref={ref}>
-                        click me!
-                    </AppChildCompoment>
-                </div>
-            )
+                <ul>
+                    {this.state.comments.map((comment) => (
+                        <li key={comment.id}>{comment.txt}</li>
+                    ))}
+                </ul>
+            );
         }
     }
-    const AppChildCompoment = React.forwardRef((props, ref) => (
-        <button ref={ref} className="FancyButton">
-            {props.children}
-        </button>
-    ));
-    const domContainer = document.querySelector('#root');
-    ReactDOM.render(<App></App>, domContainer);
+    // 高阶组件不属于reactAPI 而是组合组件的一种设计模式
+    // 参数为组件 返回值为新组件
+    const CommentListWithSubscription = withSubscription(
+        CommentList,
+        (DataSource) => DataSource.getComments()
+    );
+    function withSubscription(WrappedComponent, selectData) {
+        // WrappedComponent 需要获取数据的组件传递的子组件
+        // selectData 通过数据源和传递的props参数返回我们需要的获取的数据 =>数据返回函数 ：参数（数据源，props参数）
+        // ...并返回另一个组件...
+        return class extends React.Component {
+            constructor(props) {
+                console.log("props",props);
+                super(props);
+                this.handleChange = this.handleChange.bind(this);
+                this.state = {
+                    data: selectData(DataSource, props)
+                };
+            }
+
+            componentDidMount() {
+                // ...负责订阅相关的操作...
+                DataSource.addChangeListener(this.handleChange);
+            }
+
+            componentWillUnmount() {
+                DataSource.removeChangeListener(this.handleChange);
+            }
+
+            handleChange() {
+                this.setState({
+                    data: selectData(DataSource, this.props)
+                });
+            }
+
+            render() {
+                // ... 并使用新数据渲染被包装的组件!
+                // 请注意，我们可能还会传递其他属性
+                return <WrappedComponent data={this.state.data} {...this.props} />;
+            }
+        };
+    }
+
+    ReactDOM.render(
+        <CommentList />,
+        document.getElementById("root")
+    );
+    // 注意点：1.不要试图在高阶组件中修改原始组件2.ref不会被传递
 </script>
 
 </html>
