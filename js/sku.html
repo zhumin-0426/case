@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品规格</title>
+</head>
+<style>
+    .add-goods-spec {
+        margin-bottom: 20px;
+    }
+
+    .add-goods-spec button {
+        margin-top: 20px;
+    }
+
+    .spec-list {
+        margin-bottom: 20px;
+    }
+
+    .spec-list .spec-list-item {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .spec-list .spec-list-item .name {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .spec-list .spec-list-item .value {
+        float: left;
+        padding: 5px 15px;
+        color: #666;
+        border: solid 1px #efefef;
+        border-radius: 4px;
+        margin-right: 10px;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <!-- 添加规格-->
+        <div class="add-goods-spec">
+            <div class="spec-name">
+                <input type="text" name="spec-name">
+            </div>
+            <div class="spec-val">
+                <input type="text" name="spec-val">
+            </div>
+            <button class="add-spec-btn" type="button">添加</button>
+        </div>
+        <!-- 规格列表 -->
+        <div class="spec-list">
+            <!-- <div class="spec-list-item">
+                <div class="name">1</div>
+                <div class="value">2</div>
+            </div> -->
+        </div>
+        <!-- 规格表格 -->
+        <table class="table" border="1">
+            <thead class="thead">
+                <tr>
+                    <!-- <th>数量</th>
+                    <th>价格</th>
+                    <th>颜色</th>
+                    <th>尺寸</th> -->
+                </tr>
+            </thead>
+            <tbody class="tbody">
+                <!-- <tr>
+                    <td rowspan="2">100</td>
+                    <td>$100</td>
+                    <td>白色</td>
+                    <td>X</td>
+                </tr>
+                <tr>
+                    <td rowspan="2">200</td>
+                    <td>$200</td>
+                    <td>黑色</td>
+                    <td>L</td>
+                </tr>
+                <tr>
+                    <td>100</td>
+                    <td>$300</td>
+                    <td>红色</td>
+                    <td>XL</td>
+                </tr> -->
+            </tbody>
+        </table>
+    </div>
+</body>
+<script>
+    const specName = document.getElementsByClassName('spec-name')[0];
+    const spacVal = document.getElementsByClassName('spec-val')[0];
+    const addSpecBtn = document.getElementsByClassName('add-spec-btn')[0];
+    const specList = document.getElementsByClassName('spec-list')[0]
+    const specNameIpt = specName.children[0];
+    const specValIpt = spacVal.children[0];
+    const theadTr = document.getElementsByClassName('thead')[0].children[0];
+    const tbody = document.getElementsByClassName('tbody')[0]
+    /*
+    添加规格点击事件
+    */
+    let spec_arr = [
+        {
+            spec_name: "颜色",
+            item: [
+                { spec_val: "白色" },
+                { spec_val: "黑色" }
+            ]
+        }, {
+            spec_name: "尺寸",
+            item: [
+                { spec_val: "X" },
+                { spec_val: "L" },
+                { spec_val: "XL" }
+            ]
+        },
+        {
+            spec_name: "款式",
+            item: [
+                { spec_val: "时尚" },
+                { spec_val: "低调" },
+                { spec_val: "大众" }
+            ]
+        }
+    ];
+    addSpecBtn.onclick = () => {
+        let spec_name = specNameIpt.value;
+        let spec_val = specValIpt.value;
+        let spec_obj = {
+            spec_name,
+            item: [
+                { spec_val }
+            ]
+        };
+        spec_arr.push(spec_obj)
+        specListRender(spec_arr)
+    }
+    /*
+       规格列表
+    */
+    const specListRender = (spec_arr) => {
+        console.log(spec_arr)
+        let template = ''
+        template += `
+           <%for(let i=0;i<spec_arr.length;i++){%>
+                <div class="spec-list-item">
+                    <div class="name"><%= spec_arr[i].spec_name%></div>
+                    <%for(let x=0;x<spec_arr[i].item.length;x++){%>
+                        <div class="value">
+                            <%= spec_arr[i].item[x].spec_val%>
+                        </div>
+                    <%}%>
+                    <input class="spec-val-ipt" type="text"><button type="button" onclick="addSpecVal(<%=i%>)">添加规格值</button>
+                </div>
+           <%}%>
+        `;
+        let parse = eval(compile(template));
+        specList.innerHTML = parse({ supplies: ["broom", "mop", "cleaner"] });
+    }
+    /*
+       添加属性值
+    */
+    const addSpecVal = (i) => {
+        const specValIpt = document.getElementsByClassName('spec-val-ipt')[i];
+        const spec_val = specValIpt.value;
+        spec_arr[i].item.push({ spec_val });
+        specListRender(spec_arr)
+        console.log('spec_arr', spec_arr)
+    }
+    /*
+        规格表格
+    */
+    const specTableTheadRender = () => {
+        console.log(theadTr)
+        // 表格头部渲染
+        let theadTemplate = '';
+        theadTemplate += `
+                <%for(let i=0;i<spec_arr.length;i++){%>
+                    <th><%=spec_arr[i].spec_name%></th>
+                <%}%>
+            `
+        let parse = eval(compile(theadTemplate));
+        theadTr.innerHTML = parse({ supplies: ["broom", "mop", "cleaner"] });
+
+    }
+    // 计算属性的乘积(获取配对的可能性)
+    function countSum(specIndex = 0) {
+        let num = 1;
+        spec_arr.forEach((item, index) => {
+            if (index >= specIndex && item.item.length) {
+                num *= item.item.length;
+            }
+        });
+        return num;
+    }
+    /**
+      * 根据传入的条件，来判断是否显示该td
+      * [如果当前项目下没有属性，则不显示]
+      * @param specIndex //
+      * @param index
+      * @returns {boolean}
+      */
+    function showTd(specIndex, index) {
+        if (!spec_arr[specIndex]) {
+            return false;
+        } else if (index % countSum(specIndex + 1) === 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    /**
+     * 根据传入的属性值，拿到相应规格的属性
+     * @param specIndex
+     * @param index 所有属性在遍历时的序号
+     * @returns {string}
+     */
+    function getSpecAttr(specIndex, index) {
+        let spec_arr = spec_arr;
+        const currentValues = spec_arr[specIndex].item;
+        let indexCopy = (spec_arr[specIndex + 1] && spec_arr[specIndex + 1].item.length)
+            ? index / countSum(specIndex + 1)
+            : index;
+        const i = Math.floor(indexCopy % currentValues.length);
+        return (i.toString() !== 'NaN') ? currentValues[i] : '';
+    }
+    const specTableTbodyRender = () => {
+        // 表格数据渲染
+        let totalPsblt = countSum(0);
+        let tbodyTemplate = '';
+        tbodyTemplate += `
+                <%for(let i=0;i<totalPsblt;i++){%>
+                    <tr class="spec-table-tbody-tr">
+                        <%if(spec_arr.length>0){%>
+                            <%for(let x=0;x<spec_arr.length;x++){%>
+                                <td class="spec-table-tbody-td" rowspan="countSum(<%=x%>)">
+                                    1
+                                </td>
+                            <%}%>
+                        <%}%>
+                    </tr>
+                <%}%>
+            `
+        let parse = eval(compile(tbodyTemplate));
+        tbody.innerHTML = parse({ supplies: ["broom", "mop", "cleaner"] });
+    }
+    specTableTbodyRender();
+    specTableTheadRender();
+    // 模板构造器
+    function compile(template) {
+        const evalExpr = /<%=(.+?)%>/g;
+        const expr = /<%([\s\S]+?)%>/g;
+        template = template
+            .replace(evalExpr, '`); \n  echo( $1 ); \n  echo(`')
+            .replace(expr, '`); \n $1 \n  echo(`');
+        template = 'echo(`' + template + '`);';
+        let script =
+            `(function parse(data){
+                let output = "";
+
+                function echo(html){
+                output += html;
+                }
+
+                ${template}
+
+                return output;
+            })`;
+
+        return script;
+    }
+</script>
+
+</html>
