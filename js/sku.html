@@ -118,7 +118,7 @@
                 { spec_val: "L" },
                 { spec_val: "XL" }
             ]
-        },{
+        }, {
             spec_name: "款式",
             item: [
                 { spec_val: "时尚" },
@@ -223,7 +223,7 @@
     const specTableTbodyRender = () => {
         // 笛卡尔积转换
         let specArr = converter(spec_arr);
-        console.log('specArr',specArr)
+        console.log('specArr', specArr)
         // 合并单元格
         let row = [];
         let rowSpan = specArr.length;
@@ -236,7 +236,7 @@
             rowSpan = row[n]
         }
         // row.reverse();
-        console.log('row',row)
+        console.log('row', row)
         // 表格数据渲染
         let len = specArr[0].length;
         let template = "";
@@ -249,7 +249,7 @@
                     str += "<td>" + specArr[x][j].spec_val + "</td>";
                 }
             }
-            template += "<tr>" + str + "<td><input/></td>" + "<td>xxx</td>" + "</tr>";
+            template += "<tr>" + str + "<td><input/></td>" + "<td><input/></td>" + "</tr>";
         }
         console.log('template', template);
         tbody.innerHTML = template;
