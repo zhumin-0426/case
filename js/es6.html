@@ -12,10 +12,31 @@
     <div id=root></div>
 </body>
 <script>
-    function foo(){
-        this.foo = "foo"
+    class RangeIterator {
+        constructor(start, stop) {
+            this.value = start;
+            this.stop = stop;
+        }
+
+        [Symbol.iterator]() { return this; }
+
+        next() {
+            var value = this.value;
+            if (value < this.stop) {
+                this.value++;
+                return { done: false, value: value };
+            }
+            return { done: true, value: undefined };
+        }
     }
-    console.log(Symbol.hasInstance)
+
+    function range(start, stop) {
+        return new RangeIterator(start, stop);
+    }
+
+    for (var value of range(0, 3)) {
+        console.log(value); // 0, 1, 2
+    }
 </script>
 
 </html>
