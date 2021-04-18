@@ -1,146 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>demo</title>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		.box{
+			width: 100px;
+			height: 100px;
+			background: red;
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
+	</style>
 </head>
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-    }
-
-    ul {
-        list-style: none;
-        margin-top: 20px;
-    }
-
-    .wrap {
-        width: 600px;
-        margin: 20px auto;
-    }
-
-    .clearfix {
-        zoom: 1;
-    }
-
-    .clearfix:after {
-        content: ".";
-        width: 0;
-        height: 0;
-        visibility: hidden;
-        clear: both;
-        display: block;
-    }
-
-    .con {
-        margin: 10px;
-        padding: 10px;
-    }
-
-    li {
-        float: left;
-        margin-left: 20px;
-        padding: 2px 6px;
-        border: 1px solid #ccc;
-        cursor: pointer;
-        position: relative;
-    }
-
-    s {
-        display: none;
-        width: 12px;
-        height: 12px;
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        background: url("sel.png") no-repeat;
-    }
-
-    li.sel {
-        border: 1px solid #c01110;
-    }
-
-    li.sel s {
-        display: block;
-    }
-
-    .fl {
-        float: left
-    }
-
-    .tit {
-        margin-top: 20px;
-    }
-</style>
-
 <body>
-    <div class="wrap">
-        <div class="con"></div>
-        <div class="clearfix">
-            <div class="tit fl">尺寸:</div>
-            <ul class="ul0 gg fl clearfix">
-                <li><span>大号</span><s></s></li>
-                <li><span>中号</span><s></s></li>
-                <li><span>小号</span><s></s></li>
-            </ul>
-        </div>
-        <div class="clearfix">
-            <div class="tit fl">材质:</div>
-            <ul class="ul1 gg fl clearfix">
-                <li><span>丝绵</span><s></s></li>
-                <li><span>纯棉</span><s></s></li>
-                <li><span>亚麻</span><s></s></li>
-            </ul>
-        </div>
-        <div class="clearfix">
-            <div class="tit fl">规格:</div>
-            <ul class="ul2 gg fl clearfix">
-                <li><span>11</span><s></s></li>
-                <li><span>22</span><s></s></li>
-                <li><span>33</span><s></s></li>
-            </ul>
-        </div>
-
-        <div class="btn"
-            style="margin-top:20px;width:80px;height:30px;line-height:30px;text-align:center;border:1px solid #ccc;cursor:pointer;">
-            <a>提交</a>
-        </div>
-    </div>
+	<div class="box"></div>
 </body>
-<script src="../jquery/js/jquery.js"></script>
 <script>
-    $("ul").each(function (i) {
-        $(this).on("click", "li", function () {
-            var ht = $(".con").html();
-            $(this).addClass("sel");
-            $(this).siblings().removeClass("sel");
-            var $span = "<span " + "class='ul" + i + "'>" + $(this).find("span").html() + "</span>";
-            var cla = "ul" + i;
-            if ($(".con span").hasClass(cla) == false) {
-                if ($(".con span").length == 0) {
-                    $(".con").append($span);
-                } else {
-                    $(".con").append("," + $span);
-                }
-            } else {
-                $(".con span").filter("." + "ul" + i).html($(this).find("span").html());
-            }
-        })
-    });
-    // $(".btn").on("click", function () {
-    //     var len1 = $(".gg").length;
-    //     var len2 = $(".con span").length;
-    //     if (len1 != len2) {
-    //         alert("请选择规格")
-    //     } else {
-    //         $(this).find("a").attr("href", "http://www.baidu.com");
-    //     }
-
-    // });
+// 按下 移动 抬起 的事件嵌套
+	var obox = document.querySelector(".box");
+	var clientW = document.documentElement.clientWidth; //获取屏幕宽度
+	var clientH = document.documentElement.clientHeight; //获取屏幕高度
+	var w = obox.offsetWidth;//获取box的宽度
+	var h = obox.offsetHeight;//获取box的高度
+	obox.addEventListener("mousedown",function(eve){
+		//在这里获取事件对象可以拿到鼠标点击时在事件源内的坐标。
+		var e1 = eve || window.event;
+		//按下的时候移动  所以要进行事件嵌套，为了防止移动过快，鼠标在某一瞬间离开元素，把移动事件加给页面。
+		document.addEventListener("mousemove",move)
+		//因为移动事件在抬起的时候会被删除，所以提前起名。
+		function move(eve){
+			var e = eve || window.event; 
+			//鼠标相对于页面的坐标减去按下时相对于元素的坐标
+			var l = e.pageX - e1.offsetX;//元素位移的横向距离
+			var t = e.pageY - e1.offsetY;//元素位移的纵向距离
+			//边界鉴定
+				if(t<0){//判断元素有没有位移出屏幕左侧
+					t = 0;//如果位移出去，把它拉回来。
+				}
+				if(l<0){//判断元素有没有位移出屏幕上侧
+					l = 0;//如果位移出去，把它拉回来。
+				}
+				if(l>clientW-w){//判断元素有没有位移出屏幕右侧
+					l = clientW-w;//同上
+				}
+				if(t > clientH - h){//下侧
+					t = clientH - h;//拉回来
+				}
+			obox.style.left = l + "px";//设置元素的位置，移动距离为pageX(鼠标相对于屏幕的横坐标)
+			obox.style.top = t + "px";//设置元素的位置，移动距离为pageY(鼠标相对于屏幕的纵坐标)
+		}
+		//抬起和移动都是在按下之后进行的，即使不移动依然可以抬起，所以移动和抬起是兄弟关系。
+		document.addEventListener("mouseup",function up(){
+			//松开之后，删除移动和抬起事件。
+			document.removeEventListener("mousemove",move)
+			document.removeEventListener("mousemup",up)
+		})
+	})
 </script>
-
 </html>

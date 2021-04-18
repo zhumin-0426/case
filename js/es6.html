@@ -9,34 +9,23 @@
 </head>
 
 <body>
-    <div id=root></div>
+    <ul>
+        <li class="item">1</li>
+    </ul>
 </body>
 <script>
-    class RangeIterator {
-        constructor(start, stop) {
-            this.value = start;
-            this.stop = stop;
-        }
+    // 正常版本的readFile（多参数版本）
+    fs.readFile(fileName, callback);
 
-        [Symbol.iterator]() { return this; }
+    // Thunk版本的readFile（单参数版本）
+    var Thunk = function (fileName) {
+        return function (callback) {
+            return fs.readFile(fileName, callback);
+        };
+    };
 
-        next() {
-            var value = this.value;
-            if (value < this.stop) {
-                this.value++;
-                return { done: false, value: value };
-            }
-            return { done: true, value: undefined };
-        }
-    }
-
-    function range(start, stop) {
-        return new RangeIterator(start, stop);
-    }
-
-    for (var value of range(0, 3)) {
-        console.log(value); // 0, 1, 2
-    }
+    var readFileThunk = Thunk(fileName);
+    readFileThunk(callback);
 </script>
 
 </html>
