@@ -14,18 +14,26 @@
     </ul>
 </body>
 <script>
-    // 正常版本的readFile（多参数版本）
-    fs.readFile(fileName, callback);
+    function run(fn) {
+        var gen = fn();
 
-    // Thunk版本的readFile（单参数版本）
-    var Thunk = function (fileName) {
-        return function (callback) {
-            return fs.readFile(fileName, callback);
-        };
-    };
+        function next(err, data) {
+            var result = gen.next(data);
+            if (result.done) return;
+            result.value(next);
+        }
 
-    var readFileThunk = Thunk(fileName);
-    readFileThunk(callback);
+        next();
+    }
+
+    function* g() {
+        var f1 = yield readFileThunk('fileA');
+        var f2 = yield readFileThunk('fileB');
+        // ...
+        var fn = yield readFileThunk('fileN');
+    }
+
+    run(g);
 </script>
 
 </html>
