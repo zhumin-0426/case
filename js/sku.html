@@ -5,7 +5,7 @@ sl<!DOCTYPE html>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>商品规格</title>
+    <title>sku</title>
 </head>
 <style>
     .add-goods-spec {
@@ -118,8 +118,7 @@ sl<!DOCTYPE html>
                 { spec_val: "L" },
                 { spec_val: "XL" }
             ]
-        },
-        {
+        }, {
             spec_name: "款式",
             item: [
                 { spec_val: "时尚" },
@@ -161,6 +160,9 @@ sl<!DOCTYPE html>
         `;
         let parse = eval(compile(template));
         specList.innerHTML = parse({ supplies: ["broom", "mop", "cleaner"] });
+        // 表格渲染
+        specTableTheadRender()
+        specTableTbodyRender();
     }
     /*
        添加属性值
@@ -171,6 +173,9 @@ sl<!DOCTYPE html>
         spec_arr[i].item.push({ spec_val });
         specListRender(spec_arr)
         console.log('spec_arr', spec_arr)
+        // 表格渲染
+        specTableTheadRender()
+        specTableTbodyRender();
     }
     /*
         规格表格
@@ -186,71 +191,71 @@ sl<!DOCTYPE html>
             `
         let parse = eval(compile(theadTemplate));
         theadTr.innerHTML = parse({ supplies: ["broom", "mop", "cleaner"] });
-
     }
-    // 计算属性的乘积(获取配对的可能性)
-    function countSum(specIndex = 0) {
-        let num = 1;
-        spec_arr.forEach((item, index) => {
-            if (index >= specIndex && item.item.length) {
-                num *= item.item.length;
-            }
-        });
-        return num;
-    }
-    /**
-      * 根据传入的条件，来判断是否显示该td
-      * [如果当前项目下没有属性，则不显示]
-      * @param specIndex //
-      * @param index
-      * @returns {boolean}
-      */
-    function showTd(specIndex, index) {
-        if (!spec_arr[specIndex]) {
-            return false;
-        } else if (index % countSum(specIndex + 1) === 0) {
-            return true;
+    /*
+        笛卡尔积转换器
+    */
+    const converter = (spec_arr) => {
+        //编辑原数组格式
+        console.log(spec_arr)
+        if (spec_arr[0].item) {
+            spec_arr = spec_arr.map((item) => {
+                return item = item.item
+            })
+        }
+        if (spec_arr.length === 1) {
+            return spec_arr[0];
         } else {
-            return false;
+            let arrySon = [];
+            //将组合放到新数组中
+            spec_arr[0].forEach((_, index) => {
+                spec_arr[1].forEach((_, index1) => {
+                    arrySon.push([].concat(spec_arr[0][index], spec_arr[1][index1]));
+                })
+            })
+            // 新数组并入原数组,去除合并的前两个数组
+            spec_arr[0] = arrySon;
+            spec_arr.splice(1, 1);
+            // 递归
+            return converter(spec_arr);
         }
     }
-    /**
-     * 根据传入的属性值，拿到相应规格的属性
-     * @param specIndex
-     * @param index 所有属性在遍历时的序号
-     * @returns {string}
-     */
-    function getSpecAttr(specIndex, index) {
-        let spec_arr = spec_arr;
-        const currentValues = spec_arr[specIndex].item;
-        let indexCopy = (spec_arr[specIndex + 1] && spec_arr[specIndex + 1].item.length)
-            ? index / countSum(specIndex + 1)
-            : index;
-        const i = Math.floor(indexCopy % currentValues.length);
-        return (i.toString() !== 'NaN') ? currentValues[i] : '';
-    }
     const specTableTbodyRender = () => {
+        // 笛卡尔积转换
+        let specArr = converter(spec_arr);
+        console.log('specArr', specArr)
+        // 合并单元格
+        let row = [];
+        let rowSpan = specArr.length;
+        // for (var i = spec_arr.length - 1; i > -1; i--) {
+        //     row[i] = parseInt(rowSpan / spec_arr[i].item.length);
+        //     rowSpan = row[i]
+        // }
+        for (let n = 0; n < spec_arr.length; n++) {
+            row[n] = parseInt(rowSpan / spec_arr[n].item.length)
+            rowSpan = row[n]
+        }
+        // row.reverse();
+        console.log('row', row)
         // 表格数据渲染
-        let totalPsblt = countSum(0);
-        let tbodyTemplate = '';
-        tbodyTemplate += `
-                <%for(let i=0;i<totalPsblt;i++){%>
-                    <tr class="spec-table-tbody-tr">
-                        <%if(spec_arr.length>0){%>
-                            <%for(let x=0;x<spec_arr.length;x++){%>
-                                <td class="spec-table-tbody-td" rowspan="countSum(<%=x%>)">
-                                    1
-                                </td>
-                            <%}%>
-                        <%}%>
-                    </tr>
-                <%}%>
-            `
-        let parse = eval(compile(tbodyTemplate));
-        tbody.innerHTML = parse({ supplies: ["broom", "mop", "cleaner"] });
+        let len = specArr[0].length;
+        let template = "";
+        for (var x = 0; x < specArr.length; x++) {
+            let str = "";
+            for (var j = 0; j < len; j++) {
+                if (x % row[j] == 0 && row[j] > 1) {
+                    str += "<td rowspan='" + row[j] + "'>" + specArr[x][j].spec_val + "</td>";
+                } else if (row[j] == 1) {
+                    str += "<td>" + specArr[x][j].spec_val + "</td>";
+                }
+            }
+            template += "<tr>" + str + "<td><input/></td>" + "<td><input/></td>" + "</tr>";
+        }
+        console.log('template', template);
+        tbody.innerHTML = template;
     }
-    specTableTbodyRender();
     specTableTheadRender();
+    specTableTbodyRender();
     // 模板构造器
     function compile(template) {
         const evalExpr = /<%=(.+?)%>/g;

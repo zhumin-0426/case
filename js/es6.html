@@ -5,18 +5,35 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>es6</title>
 </head>
 
 <body>
-    <div id=root></div>
+    <ul>
+        <li class="item">1</li>
+    </ul>
 </body>
 <script>
-    let arr = [1,2,3,4,5];
-    let resolve = arr.reduce((total,currentValue,currentIndex,arrObj)=>{
-        return total+currentValue
-    })
-    console.log(resolve)
+    function run(fn) {
+        var gen = fn();
+
+        function next(err, data) {
+            var result = gen.next(data);
+            if (result.done) return;
+            result.value(next);
+        }
+
+        next();
+    }
+
+    function* g() {
+        var f1 = yield readFileThunk('fileA');
+        var f2 = yield readFileThunk('fileB');
+        // ...
+        var fn = yield readFileThunk('fileN');
+    }
+
+    run(g);
 </script>
 
 </html>

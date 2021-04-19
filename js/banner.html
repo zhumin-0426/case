@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>纵向轮播</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .container {
+        width: 500px;
+        height: 600px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    #scroll-wrapper {
+        width: 500px;
+        height: 1400px;
+        margin: 0 auto;
+        position: absolute;
+        z-index: 1;
+    }
+
+    #scroll-wrapper {
+        transition: top 1s;
+    }
+
+    #scroll-wrapper .item {
+        box-sizing: border-box;
+        width: 100%;
+        height: 200px;
+        padding: 10px;
+        text-align: center;
+        line-height: 200px;
+        font-size: 100px;
+        color: #fff;
+        font-weight: bold;
+    }
+    .scroll-wrapper {
+        transition: top 0.01s !important;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <ul id="scroll-wrapper" style="top: 0;">
+            <li class="item" style="background-color: red;">1</li>
+            <li class="item" style="background-color: orange;">2</li>
+            <li class="item" style="background-color: yellow;">3</li>
+            <li class="item" style="background-color: green;">4</li>
+            <li class="item" style="background-color:cyan;">5</li>
+            <li class="item" style="background-color: blue;">6</li>
+            <li class="item" style="background-color: purple;">7</li>
+        </ul>
+    </div>
+</body>
+<script>
+    var scroll_wrapper = document.getElementById('scroll-wrapper')
+    var top = scroll_wrapper.style.top;//接收偏移量的值
+    // 动画 (偏移量改变)
+    function animate(offset) {
+        var newTop = parseInt(scroll_wrapper.style.top) + offset;
+        scroll_wrapper.style.top = newTop + 'px';
+        //判断动画是否全部执行完
+        if (newTop < -1200) {
+            scroll_wrapper.style.top = 0 + 'px';
+            scroll_wrapper.setAttribute('class', 'scroll-wrapper')
+        } else {
+            scroll_wrapper.removeAttribute('class', 'scroll-wrapper')
+        }
+    }
+    setInterval(function () {
+        animate(-600)
+    }, 2000);
+</script>
+
+</html>

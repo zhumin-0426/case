@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sku管理</title>
+</head>
+<style>
+    * {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        text-decoration: none;
+    }
+
+    .container {
+        padding: 50px;
+        border: solid 1px red;
+    }
+
+    .spec {
+        margin-bottom: 20px;
+    }
+
+    .spec .spec-value-box {
+        display: flex;
+        align-items: center;
+    }
+
+    .spec .spec-name {
+        margin-bottom: 20px;
+    }
+
+    .spec .spec-value-box li {
+        padding: 5px 15px;
+        border: solid 1px #efefef;
+        border-radius: 4px;
+        font-size: 14px;
+        color: #666;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+    .spec .spec-value-box .active {
+        padding: 5px 15px;
+        border: solid 1px #ff0000;
+        border-radius: 4px;
+        font-size: 14px;
+        color: #666;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div class="spec">
+            <!-- <div class="spec-name">属性名</div>
+            <ul class="spec-value-box">
+                <li>属性值</li>
+            </ul> -->
+        </div>
+    </div>
+    <button class="btn">提交</button>
+</body>
+<script>
+    let spec_arr = [
+        {
+            spec_name: "颜色",
+            item: [
+                { spec_val: "白色" },
+                { spec_val: "黑色" }
+            ]
+        }, {
+            spec_name: "尺寸",
+            item: [
+                { spec_val: "X" },
+                { spec_val: "L" },
+                { spec_val: "XL" }
+            ]
+        }, {
+            spec_name: "款式",
+            item: [
+                { spec_val: "时尚" },
+                { spec_val: "低调" },
+                { spec_val: "大众" }
+            ]
+        }
+    ];
+    const container = document.getElementsByClassName('container')[0];
+    // 模版渲染
+    const specTemplateRender = () => {
+        let template = "";
+        template += `
+            <%for(let i=0;i<spec_arr.length;i++){%>
+                <div class="spec">
+                    <div class="spec-name"><%=spec_arr[i].spec_name%></div>
+                    <ul class="spec-value-box">
+                        <%for(let x=0;x<spec_arr[i].item.length;x++){%>
+                            <li class="spec-value-box-item" data-idx=<%=i%>><%=spec_arr[i].item[x].spec_val%></li>
+                        <%}%>
+                    </ul>
+                </div>
+            <%}%>
+        `
+        let parse = eval(compile(template));
+        container.innerHTML = parse({ supplies: ["broom", "mop", "cleaner"] });
+    }
+    specTemplateRender()
+    // 规格点击
+    const spec = document.getElementsByClassName('spec');
+    const specValueBoxItem = document.getElementsByClassName('spec-value-box-item')
+    let specCol = [];
+    for (let n = 0; n < spec.length; n++) {
+        for (let x = 0; x < specValueBoxItem.length; x++) {
+            specValueBoxItem[x].onclick = function (event) {
+                let idx = event.target.dataset.idx;
+                // 添加类名
+                let children = this.parentNode.children;
+                for (let y = 0; y < children.length; y++) {
+                    children[y].removeAttribute('class', 'active')
+                }
+                this.classList.add('active')
+                // 将规格添加到数组
+                if (!specCol.includes(this.innerHTML)) {
+                    specCol[idx] = this.innerHTML;
+                }
+                console.log(specCol)
+            }
+        }
+    }
+    // 提交
+    const btn = document.getElementsByClassName('btn')[0];
+    btn.onclick = () => {
+        if (specCol.length === spec_arr.length) {
+            console.log('规格提交成功！')
+        } else {
+            console.error('规格提交失败！')
+        }
+    }
+    // 模板构造器
+    function compile(template) {
+        const evalExpr = /<%=(.+?)%>/g;
+        const expr = /<%([\s\S]+?)%>/g;
+        template = template
+            .replace(evalExpr, '`); \n  echo( $1 ); \n  echo(`')
+            .replace(expr, '`); \n $1 \n  echo(`');
+        template = 'echo(`' + template + '`);';
+        let script =
+            `(function parse(data){
+                let output = "";
+
+                function echo(html){
+                output += html;
+                }
+
+                ${template}
+
+                return output;
+            })`;
+
+        return script;
+    }
+</script>
+
+</html>
