@@ -14,26 +14,18 @@
     </ul>
 </body>
 <script>
-    function run(fn) {
-        var gen = fn();
+    function logInOrder(urls) {
+        // 远程读取所有URL
+        const textPromises = urls.map(url => {
+            return fetch(url).then(response => response.text());
+        });
 
-        function next(err, data) {
-            var result = gen.next(data);
-            if (result.done) return;
-            result.value(next);
-        }
-
-        next();
+        // 按次序输出
+        textPromises.reduce((chain, textPromise) => {
+            return chain.then(() => textPromise)
+                .then(text => console.log(text));
+        }, Promise.resolve());
     }
-
-    function* g() {
-        var f1 = yield readFileThunk('fileA');
-        var f2 = yield readFileThunk('fileB');
-        // ...
-        var fn = yield readFileThunk('fileN');
-    }
-
-    run(g);
 </script>
 
 </html>

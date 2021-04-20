@@ -6,21 +6,21 @@ const port = 8080;
 const server = http.createServer((req, res) => {
     res.statusCode = 200
     res.setHeader('Content-Type', 'application/json')
-
-
-    let Thunk = function (fildName) {
-        return function (callback) {
-            return fs.readdir(fildName, callback)
-        }
+    
+    let readFile = function(filename){
+        return new Promise(function(resolve,reject){
+            fs.readFile(filename,function(error,data){
+               if(error){
+                   console.log(error)
+               }
+               console.log('data',data)
+            })
+        })
     }
-    var readFileThunk = Thunk('./src');
-    console.log('readFileThunk',readFileThunk)
-    readFileThunk(function(err,data){
-        if(err){
-            console.log(err)
-        }
-        console.log('data',data)
-    });
+    let gen =async function(){
+        let f1 = await readFile('./src/index1.txt');
+        let f1 = await readFile('./src/index2.txt');
+    }
     // fs.readdir('./src', (err, data) => {
     //     if (err) {
     //         console.error(err);
