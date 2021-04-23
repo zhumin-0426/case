@@ -9,31 +9,23 @@
 </head>
 
 <body>
-    <ul>
-        <li class="item">1</li>
-    </ul>
+   
 </body>
 <script>
-    function run(fn) {
-        var gen = fn();
-
-        function next(err, data) {
-            var result = gen.next(data);
-            if (result.done) return;
-            result.value(next);
+    class Point {
+        constructor(){
+            
         }
-
-        next();
     }
-
-    function* g() {
-        var f1 = yield readFileThunk('fileA');
-        var f2 = yield readFileThunk('fileB');
-        // ...
-        var fn = yield readFileThunk('fileN');
-    }
-
-    run(g);
+    class Foo extends Point{
+        constructor(props){
+           super(props)
+           this.x = props
+        }
+        toString(){
+            return this.color + ' ' + super.toString();
+        }
+     }
 </script>
 
 </html>
