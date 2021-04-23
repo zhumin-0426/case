@@ -12,20 +12,18 @@
    
 </body>
 <script>
-    class Point {
-        constructor(){
-            
-        }
+    function logInOrder(urls) {
+        // 远程读取所有URL
+        const textPromises = urls.map(url => {
+            return fetch(url).then(response => response.text());
+        });
+
+        // 按次序输出
+        textPromises.reduce((chain, textPromise) => {
+            return chain.then(() => textPromise)
+                .then(text => console.log(text));
+        }, Promise.resolve());
     }
-    class Foo extends Point{
-        constructor(props){
-           super(props)
-           this.x = props
-        }
-        toString(){
-            return this.color + ' ' + super.toString();
-        }
-     }
 </script>
 
 </html>
