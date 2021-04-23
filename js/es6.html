@@ -14,18 +14,15 @@
     </ul>
 </body>
 <script>
-    function logInOrder(urls) {
-        // 远程读取所有URL
-        const textPromises = urls.map(url => {
-            return fetch(url).then(response => response.text());
-        });
-
-        // 按次序输出
-        textPromises.reduce((chain, textPromise) => {
-            return chain.then(() => textPromise)
-                .then(text => console.log(text));
-        }, Promise.resolve());
+    class ParentPoint{
     }
+    class ChildPoint extends ParentPoint{
+        constructor(){
+            super()
+        }
+    } 
+    let childPoint = new ChildPoint();
+    console.log('childPoint',childPoint)
 </script>
 
 </html>
