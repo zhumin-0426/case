@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>复用&组合</title>
+</head>
+
+<body>
+    <div id="root">
+         <tel-item></tel-item>>
+    </div>
+</body>
+<script>
+    // 混入 (mixin) 提供了一种非常灵活的方式，来分发 Vue 组件中的可复用功能
+    Vue.component('tel-item',{
+        template:`<div>这是Vue注册的一个全局组件</div>`
+    })
+    var vm = new Vue({
+        el: "#root",
+        data: {
+            message: "这是一个组件"
+        }
+    })
+</script>
+
+</html>
