@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+    <title>无障碍辅助功能</title>
+</head>
+
+<body>
+    <div id="root"></div>
+</body>
+<script type="text/babel">
+    /**
+     * 知识点
+     * React.createRef()使用
+     * */
+    const ChildComponent = () => {
+        return (
+            <div className="box">
+                这是一个子节点
+            </div>
+        )
+    }
+    class ParentComponent extends React.Component {
+        constructor(props) {
+            super(props)
+            this.state = {
+                num: 0
+            }
+            // 程序焦点管理
+            this.textInput = React.createRef();
+        }
+        search = () => {
+            this.setState(currentState => ({
+                num: currentState.num + 1
+            }))
+            console.log(this.textInput.current.focus())
+        }
+        render() {
+            let { num } = this.state;
+            return (
+                <div className="container">
+                    <div>{num}</div>
+                    <input type="text" ref={this.textInput} />
+                    <button className="btn" onClick={this.search}>提交</button>
+                </div>
+            )
+        }
+    }
+    ReactDOM.render(
+        <ParentComponent />,
+        document.getElementById("root")
+    )
+</script>
+
+</html>
