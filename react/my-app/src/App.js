@@ -11,6 +11,7 @@ function App() {
   });
   return (
     <div className="App">
+      <div className="box" style={{width:"200px",height:"200px",border:"solid 1px red"}}></div>
       <p>You clicked {count} times</p>
       <button onClick={() => setCount(count + 1)}>
         Click me
