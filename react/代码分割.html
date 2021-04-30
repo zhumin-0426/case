@@ -3,11 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
     <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
     <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
-    <title>refs转发</title>
+    <title>代码分割</title>
 </head>
 
 <body>
@@ -15,8 +16,10 @@
 </body>
 <script type="text/babel">
     /**
-     *  React.forwardRef 作用：获取ref，接受一个回调函数作为参数，回调函数的第一个参数是props，第二个参数是ref
-     * */
+     * 知识点
+     * 1.React.lazy()函数 作用：（1）配合Suspense可以作为组件的优雅降级，例如loding提示（2）如果组件加载失败，触发一个错误。你可以通过异常捕获边界（Error boundaries）技术来处理这些情况。
+     * 2.
+     * */ 
     class ParentComponent extends React.Component {
         constructor(props) {
             super(props)
@@ -24,24 +27,7 @@
         render() {
             return (
                 <div className="container">
-                    <p> 这是一个React应用</p>
-                    <ChildComponent>
-                        this a slot
-                    </ChildComponent>
-                </div>
-            )
-        }
-    }
-    class ChildComponent extends React.Component {
-        constructor(props) {
-            super(props)
-            console.log('props',props)
-        }
-        render() {
-            return (
-                <div className="box">
-                    <p>this is a children Component</p>
-                    <p>{this.props.children}</p>
+                    这是一个React应用
                 </div>
             )
         }

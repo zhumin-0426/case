@@ -11,18 +11,128 @@
 
 <body>
     <div id="root">
-         <tel-item></tel-item>>
+        <p>{{message | capitalize}}</p>
+        <tel-item :lever="lever">
+            <a href="">
+                这是render函数
+            </a>
+        </tel-item>
+        <!-- <div>
+            <input type="text" v-focus>
+        </div>
+        <div v-demo:foo.a.b="message"></div> -->
     </div>
 </body>
 <script>
-    // 混入 (mixin) 提供了一种非常灵活的方式，来分发 Vue 组件中的可复用功能
-    Vue.component('tel-item',{
-        template:`<div>这是Vue注册的一个全局组件</div>`
+    // 自定义混入对象
+    function customMixin() {
+        // var myMixin = {
+        //     data: function () {
+        //         return {
+        //             message: "this is a mixin data message"
+        //         }
+        //     },
+        //     created() {
+        //         this.hello()
+        //     },
+        //     methods: {
+        //         hello() {
+        //             console.log("hello from mixin!")
+        //         }
+        //     },
+        // }
+        // var Component = Vue.extend({
+        //     mixins: [myMixin],
+        //     data: function () {
+        //         return {
+        //             message: "this is a use mixin obj component data message"
+        //         }
+        //     },
+        //     created() {
+        //         console.log('$data', this.$data)
+        //     },
+        //     template: "<div>这是一个混入对象组件</div>"
+        // })
+        // var Component1 = {
+        //     mixins: [myMixin],
+        //     template: "<div>这是一个局部组件</div>"
+        // }
+        // Vue.component('example-cpe2', {
+        //     template: "<div>这是一个全局组件</div>"
+        // })
+        // var component = new Component()
+        // var vm = new Vue({
+        //     el: "#root",
+        //     components: {
+        //         "example-cpe": Component,
+        //         "example-cpe1": Component1
+        //     }
+        // })
+    }
+    // 自定义指令(动态指令参数：即将参数写在父级组件的$data里面)
+    // 全局指令
+    function costomDirective() {
+        // Vue.directive('demo', {
+        //     bind: function (el, binding, vnode) {
+        //         /**
+        //          * @el 被绑定元素
+        //          * @binding 一个对象具体看文档
+        //          * @vnode vue编译时生成的虚拟节点
+        //          * */
+        //         var s = JSON.stringify
+        //         el.innerHTML =
+        //             'name: ' + s(binding.name) + '<br>' +
+        //             'value: ' + s(binding.value) + '<br>' +
+        //             'expression: ' + s(binding.expression) + '<br>' +
+        //             'argument: ' + s(binding.arg) + '<br>' +
+        //             'modifiers: ' + s(binding.modifiers) + '<br>' +
+        //             'vnode keys: ' + Object.keys(vnode).join(', ')
+        //     }
+        // })
+        // var vm = new Vue({
+        //     el: "#root",
+        //     data: {
+        //         message: "这是一个Vue实例"
+        //     },
+        //     // 局部指令
+        //     directives: {
+        //         focus: {
+        //             // 指令的定义
+        //             inserted: function (el) {
+        //                 el.focus()
+        //             }
+        //         }
+        //     }
+        // })
+    }
+    // 渲染函数&JSX
+    Vue.component('tel-item', {
+        render: function (createElement) {
+            return createElement(
+                'h' + this.lever,
+                this.$slots.default
+            )
+        },
+        props: {
+            lever: {
+                type: Number,
+                required: true
+            }
+        }
     })
     var vm = new Vue({
         el: "#root",
         data: {
-            message: "这是一个组件"
+            message: "这是一个vue实例",
+            lever: 1
+        },
+        // 过滤器
+        filters: {
+            capitalize: function (value) {
+                if (!value) return ''
+                value = value.toString()
+                return value.toUpperCase()
+            }
         }
     })
 </script>

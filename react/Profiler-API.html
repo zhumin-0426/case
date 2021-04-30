@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <title>Profiler API</title>
+</head>
+
+<body>
+    <div id="root"></div>
+</body>
+<script type="text/babel">
+    /**
+     * 知识点
+     * profiler 测量渲染一个 React 应用多久渲染一次以及渲染一次的“代价”。 它的目的是识别出应用中渲染较慢的部分，或是可以使用类似 memoization 优化的部分，并从相关优化中获益
+     * */
+    class App extends React.Component {
+        constructor(props) {
+            super(props)
+            this.state = {
+                num: 1
+            }
+        }
+        add = () => {
+            this.setState(state => ({
+                num: state.num + 1
+            }))
+            console.log('a', this.state.num)
+        }
+        profilerNodeDom = (
+            id, // 发生提交的 Profiler 树的 “id”
+            phase, // "mount" （如果组件树刚加载） 或者 "update" （如果它重渲染了）之一
+            actualDuration, // 本次更新 committed 花费的渲染时间
+            baseDuration, // 估计不使用 memoization 的情况下渲染整颗子树需要的时间
+            startTime, // 本次更新中 React 开始渲染的时间
+            commitTime, // 本次更新中 React committed 的时间
+            interactions // 属于本次更新的 interactions 的集合
+
+        ) => {
+            console.log(phase)
+        }
+        render() {
+            return (
+                <div className="container">
+                    <React.Profiler id="Navigation" onRender={this.profilerNodeDom}>
+                        <p>这是一个react应用 {this.state.num}</p>
+                        <button onClick={this.add}>增加</button>
+                    </React.Profiler>
+                </div>
+            )
+        }
+    }
+    ReactDOM.render(
+        <App />,
+        document.getElementById('root')
+    )
+</script>
+
+</html>

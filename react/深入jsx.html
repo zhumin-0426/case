@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,20 +9,36 @@
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
     <title>深入JSX</title>
 </head>
+
 <body>
     <div id="root"></div>
 </body>
 <script type="text/babel">
-    function MyButton(){
-        return(
+    /**
+     * 知识点 因为JSX 会编译为 React.createElement 调用形式，所以组件名必须以大写字母开头，否则会被认为为组件内部的DOM元素的元素名
+     * 1.点语法
+     * */
+    let ComponentObj = {
+        FirstChildComponent: function FirstChildComponent() {
+            return (
+                <div className="box">
+                    <p>这是第一个子组件</p>
+                </div>
+            )
+        }
+    }
+    function App() {
+        return (
             <div>
-                <button>按钮</button>
+                <p>这是一个react应用</p>
+                <ComponentObj.FirstChildComponent></ComponentObj.FirstChildComponent>
             </div>
         )
     }
     ReactDOM.render(
-        <MyButton/>,
+        <App />,
         document.getElementById('root')
     );
 </script>
+
 </html>

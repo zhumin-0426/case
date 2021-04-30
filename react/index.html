@@ -13,7 +13,51 @@
     <div id="root"></div>
 </body>
 <script type="text/babel">
+    class App extends React.Component {
+        constructor(props) {
+            super(props)
+            this.handleChange = this.handleChange.bind(this);
+            this.state = {
+                radioValue: 'male'
+            }
+        }
+        handleChange(e) {
+            this.setState({
+                radioValue: e.target.value
+            }
+            )
+        }
+        render() {
+            const { radioValue } = this.state;
+            return (
+                <div>
+                    <p>gender:</p>
+                    <label>
+                        male：
+                   <input
+                            type="radio"
+                            value="male"
+                            checked={this.state.radioValue === 'male'?true:false}
+                            onChange={this.handleChange} />
+                    </label>
+                    <label>
+                        female：
+                    <input
+                            type="radio"
+                            value="female"
+                            checked={this.state.radioValue === 'female'?true:false}
+                            onChange={this.handleChange} />
+                    </label>
+                </div>
+            )
+        }
+    }
 
+    ReactDOM.render(
+        <App />,
+        document.getElementById('root')
+
+    )
 </script>
 
 </html>

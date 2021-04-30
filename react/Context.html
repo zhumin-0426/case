@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+    <title>Context</title>
+</head>
+
+<body>
+    <div id="root"></div>
+</body>
+<script type="text/babel">
+    /**
+     * 知识点
+     *React.createContext<=>组合组件
+     *React.contextType 作用：在消费组件中访问最近的context值
+     *React.Consumer  作用：供函数组件使用
+     *React.displayName 作用：给context对象设置名称
+     *动态Context 
+     * */
+    let TitleContext = React.createContext('light')
+    class ParentComponent extends React.Component {
+        constructor(props) {
+            super(props)
+        }
+        render() {
+            return (
+                <div className="container">
+                    <p>this is a  parent Component</p>
+                    <TitleContext.Provider value="Component">
+                        <FirstChildComponent />
+                    </TitleContext.Provider>
+                </div>
+            )
+        }
+    }
+    function FirstChildComponent() {
+        return (
+            <div className="firstComponent">
+                <p> this is a first Component</p>
+                <LastChildComponent />
+            </div>
+        )
+    }
+    class LastChildComponent extends React.Component {
+        constructor(props) {
+            super(props)
+        }
+        render() {
+            console.log(this.context)
+            return (
+                <div className="lastComponent">
+                    this is a last
+                </div>
+            )
+        }
+    }
+    LastChildComponent.contextType = TitleContext;
+    ReactDOM.render(
+        <ParentComponent />,
+        document.getElementById("root")
+    )
+</script>
+
+</html>
