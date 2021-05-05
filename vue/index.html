@@ -9,28 +9,29 @@
 
 <body>
     <div id="root">
-        <p>{{message}}</p>
-        <component-a :title="title"></component-a>
+        <p>{{text}}</p>
+        <child-component></child-component>
     </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
-    let CmtA = {
-        props: {
-            title: {
-                type: String,
-            }
+    var ChildComponent = {
+        template: "<div class='box'>box</div>",
+        created() {
+            console.log(this.$options.parent)
         },
-        template: `<div>这是一个子组件应用</div>`
     }
     var vm = new Vue({
         el: "#root",
         data: {
-            message: "这是一个Vue应用"
+            text: "这是一个Vue应用"
         },
         components: {
-            'component-a': CmtA
-        }
+            ChildComponent
+        },
+        created: function () {
+            console.log('customOption', this.$options)
+        },
     })
 </script>
 
