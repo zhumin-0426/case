@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+    <title>refs&DOM</title>
+</head>
+
+<body>
+    <div id="root"></div>
+</body>
+<script type="text/babel">
+    function btnClk(e,funRef) {
+        console.log('a',funRef.current)
+    }
+    function FunComponent() {
+        let funRef = React.useRef(null)
+        return (
+            <div className="box" ref={funRef}>
+                <p>this is constructor Component</p>
+                <button className="btn" onClick={(e)=>btnClk(e,funRef)}>BUTTON</button>
+            </div>
+        )
+    }
+    class App extends React.Component {
+        constructor(props) {
+            super(props)
+            this.myRef = React.createRef();
+        }
+        btnClk = () => {
+            console.log(this.myRef.current)
+        }
+        render() {
+            return (
+                <div className="container">
+                    <p ref={this.myRef}><span>这是一个react应用</span></p>
+                    <button onClick={this.btnClk}>Button</button>
+                </div>
+            )
+        }
+    }
+    ReactDOM.render(
+        <FunComponent />,
+        document.getElementById('root')
+    )
+</script>
+
+</html>

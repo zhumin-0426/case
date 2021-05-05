@@ -10,58 +10,27 @@
 <body>
     <div id="root">
         <p>{{message}}</p>
-        <div class="cpet">
-            <tel-item  :title="title" :num="num" :cpetBol="cpetBol" @child-add-num="addNum" ref="reference"></tel-item>
-            <dynamic-loding-component></dynamic-loding-component>
-        </div>
+        <component-a :title="title"></component-a>
     </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
-    Vue.component('dynamic-loding-component',function(resolve,reject){
-        resolve({
-            template:`<div v-once>这是动态加载的一个函数</div>`
-        })
-    })
-    Vue.component('tel-item', {
+    let CmtA = {
         props: {
-            inheritAttrs: false,
-            num: [Number],
-            title:String,
-            cpetBol:Boolean
-        },
-        template: `<div class="tel">
-               <h1 ref="h1-title">{{title}}</h1>
-               <input ref="input-num" type='text' :value="num"/>
-               <button @click="add">增加</button>
-               <template v-if="cpetBol===true">
-                    <div class="self">
-                        <tel-item></tel-item>
-                    </div>
-               </template>
-            </div>`,
-        methods: {
-            add:function(){
-                console.log(this.cpetBol)
-                console.log(this.$refs)
-                this.$emit('child-add-num',1)
+            title: {
+                type: String,
             }
         },
-    })
+        template: `<div>这是一个子组件应用</div>`
+    }
     var vm = new Vue({
         el: "#root",
         data: {
-            message: "这是一个Vue实例",
-            title:"全局组件",
-            num: 0,
-            cpetBol:true
+            message: "这是一个Vue应用"
         },
-        methods: {
-            addNum: function (num1) {
-                console.log(this.$refs.reference)
-                this.num+=num1;
-            }
-        },
+        components: {
+            'component-a': CmtA
+        }
     })
 </script>
 

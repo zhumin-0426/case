@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue构造函数</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    // Vue构造函数
+    function Vue(options) {
+        console.log()
+        if (!(this instanceof Vue)) {
+            throw Error('Vue is a constructor and should be called with the `new` keyword')
+        }
+        this._init(options)
+    }
+    Vue.prototype._init = function (options) {
+        console.log('options', options)
+        const vm = this;
+        // resolveConstructorOptions(vm.constructor)
+        // 合并选项的方法
+        vm.$options = mergeOptions(
+            resolveConstructorOptions(vm.constructor),
+            options || {},
+            vm
+        )
+    }
+    function mergeOptions() {
+
+    }
+    // 解析构造者选项
+    function resolveConstructorOptions(Ctor) {
+        console.log('Ctor', Ctor)
+    }
+    var vm = new Vue({
+        el: "#root",
+        data: {
+            message: "this is a Vue application"
+        }
+    })
+</script>
+
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>规范化props</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    function Vue(options) {
+        console.log('options', options);
+        const props = options.props;
+        if (!props) return;
+        const res = {}
+        let i, val, name
+        if (Array.isArray(props)) {
+            i = props.length;
+            while (i--) {
+                val = props[i];
+                if (typeof props[i] === 'string') {
+                    // 将中线转驼峰
+                    name = camelize(val)
+                    res[name] = { type: null }
+                } else {
+                    throw Error('props must be strings when using array syntax.')
+                }
+            }
+        }
+    }
+    // 
+    const camelizeRE = /-(\w)/g
+    camelize = cached((str: string): string => {
+        return str.replace(camelizeRE, (_, c) => c ? c.toUpperCase() : '')
+    })
+    var vm = new Vue({
+        props: ['title']
+    })
+</script>
+
+</html>
