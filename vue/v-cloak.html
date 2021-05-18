@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        这个指令保持在元素上直到关联实例结束编译
+        当我们在一个小型项目中 可能由于网速过慢 导致渲染不及时 屏幕上有可能会出现闪动的问题
+        这时我们就可以使用v-cloak结局屏幕闪动的问题  但是在大型项目中/工程化项目中 元素是通过路由进行挂在的 这时
+        就不需要v-cloak指令了
+    -->
+    <div id="root" v-cloak >
+        {{context}}
+    </div>
+    <script>
+        var vm = new Vue({
+            el:"#root",
+            data:{
+                context:"互联网头部玩家钟爱的健身项目"
+            }
+        });
+    </script>
+</body>
+</html>

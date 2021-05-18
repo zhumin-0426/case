@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>$listeners&$attrs</title>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<body>
+    <div id="app">
+        <p>{{ message }}</p>
+        <son-component :message="message" :show="show"></son-component>
+    </div>
+
+    <script>
+        var GrandSon = {
+            props: ["message", "show"],
+            template: `<div class="box">
+              <p>this is a grandson component</p>
+              <button @click="clk">button</button>
+          </div>`,
+            methods: {
+                clk: function () {
+                    console.log("a", this.message);
+                    console.log("b", this.show());
+                }
+            }
+        };
+        var SonComponent = {
+            template: `<div class="box">
+              <p>this is a son component</p>
+              <grand-son v-bind="$attrs" v-on="$listeners"></grand-son>
+          </div>`,
+            components: {
+                GrandSon
+            }
+        };
+        var app = new Vue({
+            el: "#app",
+            data: {
+                message: "Hello Vue!"
+            },
+            components: {
+                SonComponent
+            },
+            methods: {
+                show() {
+                    return "show message";
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
