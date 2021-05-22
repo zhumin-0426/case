@@ -12,34 +12,34 @@
 
 </body>
 <script>
+    var inject = ['one'];
+    let normalized = inject = {};
+    normalized = {
+        name:"aa"
+    }
+    console.log(normalized)
+    console.log(inject)
     function Vue(options) {
-        console.log('options', options);
+        console.log(options);
         const props = options.props;
-        if (!props) return;
-        const res = {}
-        let i, val, name
-        if (Array.isArray(props)) {
+        if(!options.props) return;
+        if(Array.isArray(props)){
+            const res = {};
+            let i, val, name;
             i = props.length;
-            while (i--) {
-                val = props[i];
-                if (typeof props[i] === 'string') {
-                    // 将中线转驼峰
-                    name = camelize(val)
-                    res[name] = { type: null }
-                } else {
-                    throw Error('props must be strings when using array syntax.')
+            while(i--){
+                if(typeof props[i]=='string'){
+                    name = props[i];
+                    res[name] = {type:null}
+                }else{
+                    console.log('props must be strings when using array syntax.')
                 }
             }
         }
     }
-    // 
-    const camelizeRE = /-(\w)/g
-    camelize = cached((str: string): string => {
-        return str.replace(camelizeRE, (_, c) => c ? c.toUpperCase() : '')
-    })
     var vm = new Vue({
-        props: ['title']
-    })
+        props: ['one', 'two', 'three']//=>props:{one:{type:null,two:null,three:null}}
+    });
 </script>
 
 </html>
