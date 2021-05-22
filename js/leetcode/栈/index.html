@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>栈</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    /**
+    *删除重复的字符串
+    */
+    // var s = "abbaca";
+    // var removeDuplicates = function (s) {
+    //     let arr = [];
+    //     let i;
+    //     for (str of s) {
+    //         if (arr.length !== 0 && arr[arr.length - 1] == str) {
+    //             arr.push(str);
+    //             arr.splice(arr.length - 2, 2);
+    //         } else {
+    //             arr.push(str);
+    //         }
+    //     }
+    //     return arr.join("")
+    // };
+    // var a = removeDuplicates(s);
+    // console.log('a', a)
+    /**
+    *有效的括号
+    */
+    // s = "()[]{}";
+    // var isValid = function (s) {
+    //     if (s % 2 == 1) {
+    //         return false
+    //     }
+    //     // 思路:利用栈的思想方法解决
+    //     const len = s.length;
+    //     var map = new Map([
+    //         [')', '('],//key,value
+    //         [']', '['],//key,value
+    //         ['}', '{'],//key,value
+    //     ])
+    //     var arr = [];
+    //     for (item of s) {
+    //         if (map.has(item)) {
+    //             if (!arr.length || arr[arr.length - 1] !== map.get(item)) {
+    //                 return false
+    //             } else {
+    //                 arr.pop()
+    //             }
+    //         } else {
+    //             arr.push(item)
+    //         }
+    //     }
+    //     return !arr.length;
+    // };
+    // var a = isValid(s);
+    // dd2
+</script>
+
+</html>

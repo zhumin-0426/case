@@ -222,37 +222,6 @@
     // };
     // var a = twoSum([3, 2, 4], 6);
     // console.log(a)
-
-    /**
-    *有效的括号
-    */
-    s = "()[]{}";
-    var isValid = function (s) {
-        if (s % 2 == 1) {
-            return false
-        }
-        // 思路:利用栈的思想方法解决
-        const len = s.length;
-        var map = new Map([
-            [')', '('],//key,value
-            [']', '['],//key,value
-            ['}', '{'],//key,value
-        ])
-        var arr = [];
-        for (item of s) {
-            if (map.has(item)) {
-                if (!arr.length || arr[arr.length - 1] !== map.get(item)) {
-                    return false
-                } else {
-                    arr.pop()
-                }
-            } else {
-                arr.push(item)
-            }
-        }
-        return arr.empty();
-    };
-    var a = isValid(s);
 </script>
 
 </html>
