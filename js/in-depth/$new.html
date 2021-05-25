@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js new关键字的实现</title>
+</head>
+
+<body>
+</body>
+<script>
+    function Person(name, age, gender) {
+        this.name = name,
+            this.age = age,
+            this.gender = gender
+    }
+    Person.prototype.skills = "唱歌";
+    var person = new Person('Mrzhu', 25);
+
+    function $new(target) {
+        var regexp = /^[A-Z][A-z0-9]*$/g;
+        if (regexp.test(target.name)) {
+            var params = Array.from(arguments);
+            params.shift();
+            var obj = {};
+            obj.__proto__ = target.prototype;
+            // 如果构造函数返回一个对象，则直接返回这个对象 
+            target.apply(obj, params);
+            var ret = target.apply(obj, Array.prototype.slice.call(arguments, 1));
+            if ((typeof ret === 'object' || typeof ret === 'function') && ret !== null) {
+                return ret;
+            }
+            return obj;
+        } else {
+            console.error('The declaration should use the new keyword and start with a capital letter')
+        }
+    }
+    var result = $new(Person, 'Mrzhu', 25, '男');
+    console.log(result)
+</script>
+
+</html>

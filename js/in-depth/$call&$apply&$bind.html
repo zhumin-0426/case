@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js csll apply bind</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    /**
+     * call
+     * 第一步：改变了person的this指向，解决方法就是在person1上面添加方法=person.fullName
+     * */
+    var person = {
+        fullName: function (txt, s) {
+            console.log(txt + s + this.firstName + " " + this.lastName);
+        }
+    }
+    var person1 = {
+        firstName: "John",
+        lastName: "Doe"
+    }
+    Function.prototype._call = function (context, ...args) {
+        context.fn = this || window;
+        var result = context.fn(...args);
+        delete context.fn;
+        return result
+    }
+    person.fullName._call(person1, "Hello", "wode");
+    /**
+    * apply
+    * 第一步：改变了person的this指向，解决方法就是在person1上面添加方法=person.fullName
+    * */
+    Function.prototype._apply = function (context, args) {
+        context.fn = this || window;
+        var args = args || [];
+        var result = context.fn(args);
+        delete context.fn;
+        return result
+    }
+</script>
+
+</html>
