@@ -8,35 +8,17 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <title>learn</title>
 </head>
-<style>
-    .fade-enter-active,
-    .fade-leave-active {
-        transition: opacity .5s;
-    }
-
-    .fade-enter,
-    .fade-leave-to
-
-    /* .fade-leave-active below version 2.1.8 */
-        {
-        opacity: 0;
-    }
-</style>
 
 <body>
     <div id="demo">
-        <button v-on:click="show = !show">
-            Toggle
-        </button>
-        <transition name="fade">
-            <p v-if="show">hello</p>
-        </transition>
+        <input :value="sth" @input="sth = $event.target.value" />
+         <p>{{sth}}</p>
     </div>
     <script>
         new Vue({
             el: '#demo',
             data: {
-                show: true
+                sth: "", 
             }
         })
     </script>
