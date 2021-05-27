@@ -11,7 +11,17 @@
 <body>
 </body>
 <script>
-    
+    var gloVariable = "global";
+    function outFn(){
+        var  outFnVariable = 'outFn';
+        console.log(gloVariable)
+        function inFn(){
+            var inFnVariable  = 'inFn';
+            console.log(outFnVariable)
+        }
+        inFn()
+    }
+    outFn()
 </script>
 
 </html>
