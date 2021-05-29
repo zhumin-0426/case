@@ -11,17 +11,15 @@
 <body>
 </body>
 <script>
-    var gloVariable = "global";
-    function outFn(){
-        var  outFnVariable = 'outFn';
-        console.log(gloVariable)
-        function inFn(){
-            var inFnVariable  = 'inFn';
-            console.log(outFnVariable)
-        }
-        inFn()
+    var num  = 123;
+    var person = {
+        name:"Mrzhu",
+        age:25
     }
-    outFn()
+    num.a = 3;
+    person.a = 'a';
+    console.log(person.a);
+    console.log(num.a)
 </script>
 
 </html>

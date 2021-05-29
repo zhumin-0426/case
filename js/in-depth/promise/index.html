@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js for promise</title>
+</head>
+
+<body>
+
+</body>
+<script src="./js/callback.js"></script>
+<script src="./js/then.js"></script>
+<script src="./js/catch.js"></script>
+<script>
+    var person = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            // reject('error')
+        }, 1000)
+    })
+    // person.catch(function(err){
+    //     console.log('err',err)
+    // })
+    /**
+     * Promise实现
+     * 1.如何让Promise变成一个微任务
+     * 2.如何管理Promise的状态 pending fulfiled rejected
+     * 3.then方法的返回值问题 
+     * 4.静态方法: resolve 、reject、all、race
+     * */
+    function _Promise(callback) {
+        if (typeof callback !== 'function') {
+            throw TypeError('_Promise resolver undefined is not a function')
+        }
+        callback(_Promise.prototype._resolve, _Promise.prototype._reject)
+    }
+
+    _Promise.prototype.state = "PENDING";
+
+    _Promise.prototype.value = null;
+
+    _Promise.prototype.resolveQueue = [];
+    _Promise.prototype.rejectQueue = [];
+
+    initCallBack(_Promise);
+    initThen(_Promise);
+    initCatch(_Promise);
+
+    var promise = new _Promise(function (resolve, reject) {
+        reject('error')
+    })
+    var promise = promise._then(function (res) {
+        console.log('1',res);
+        return '3'
+    })._catch(function(res){
+        console.log('catch',res)
+    })
+</script>
+
+</html>
