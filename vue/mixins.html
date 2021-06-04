@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>可复用性&组合</title>
+</head>
+
+<body>
+    <div id="root">
+        <button @click="alt">Button</button>
+    </div>
+</body>
+<script>
+    /**
+     * 混入
+     * 为什么使用extend？
+     * 当我们需要动态现实组件或者类似于js插入dom的话，这个时候是可以使用Vue.extend()+vm.$mount()来实现的
+     * */
+    // 定义一个混入对象
+    var myMixin = {
+        created: function () {
+            this.hello()
+        },
+        methods: {
+            hello: function () {
+                console.log('hello from mixin!')
+            }
+        }
+    }
+
+    // 定义一个使用混入对象的组件
+    var Component = Vue.extend({
+        mixins: [myMixin],
+        template: "<div>this is a mixin component</div>"
+    })
+
+    new Vue({
+        el: "#root",
+        methods: {
+            alt: function () {
+                new Component().$mount('#root') // => "hello from mixin!"
+            }
+        }
+    })
+</script>
+
+</html>

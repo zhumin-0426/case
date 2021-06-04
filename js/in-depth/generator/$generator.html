@@ -5,21 +5,20 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>learn</title>
+    <title>generator</title>
 </head>
 
 <body>
+
 </body>
 <script>
-    var num  = 123;
-    var person = {
-        name:"Mrzhu",
-        age:25
+    function* person(){
+        yield '1';
+        yield '2';
     }
-    num.a = 3;
-    person.a = 'a';
-    console.log(person.a);
-    console.log(num.a)
+    
+    var p = person();
+    console.log(p)
 </script>
 
 </html>

@@ -9,9 +9,10 @@
 </head>
 
 <body>
-
+<button id="root"></button>
 </body>
 <script>
+    
     /**
     *1.为什么data是一个函数?
     *data是一个函数，数据以函数的返回值定义，这样保证了数据的唯一性
@@ -99,6 +100,27 @@
      * */ 
 
     /**
+     * 为什么根元素必须使用id命名
+     * 因为在vue挂载组件的时候 是根据document.getElementId()方法获取的
+     * */ 
+
+    /**
+     * 在获取模版时时如何获取到svg元素的？
+     * 因为svg不存在innerHTML/outerHTML属性，所以vue在svg元素的时候是在svg元素的外层添加一个div，然后根据这个div元素来获取svg
+     * */ 
+
+    /**
+     * vue是如何进行性能检测的?
+     * 是根据performance.mark()函数进行性能检测的
+     * */ 
+
+    /**
+     * vue组册的全局组件的缺点？
+     * 如果在使用Babel或者wenpack的时候，vue注册的组件不管你有没有使用
+     * 都会被编译进入口文件里面，这样就会造成无关代码的添加
+     * */  
+
+    /**
      *  vue-router 路由钩子函数是什么 执行顺序是什么?
      * */ 
 
@@ -124,7 +146,6 @@
 
     /**
      * 能说下 vue-router 中常用的路由模式实现原理吗?
-     * */ 
+     * */
 </script>
-
 </html>

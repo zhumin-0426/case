@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <title>vue Router</title>
+</head>
+<style>
+    .fade-enter-active,
+    .fade-leave-active {
+        transition: opacity .5s;
+    }
+
+    .fade-enter,
+    .fade-leave-to
+
+    /* .fade-leave-active below version 2.1.8 */
+        {
+        opacity: 0;
+    }
+</style>
+
+<body>
+    <div id="root">
+        <h1>hello Vue Router!</h1>
+        <p>
+            <router-link to="/">login</router-link>
+            <router-link to="/index">index</router-link>
+            <router-link to="/user/1">user</router-link>
+        </p>
+        <router-view>index</router-view>
+    </div>
+</body>
+<script src="./js/login.js"></script>
+<!-- login -->
+<script type="text/x-template" id="login-template">
+    <transition name="fade">
+        <div class = "container">
+            <div class="login-box">
+                <form @submit.prevent="userLogin">
+                    <label for="account">account：</label>
+                    <input type="text" name="account" id="account" v-model="account">
+                    <label for="password">password：</label>
+                    <input type="password" name="password" id="password" v-model="password">
+                    <button>login</button>
+                </form>
+                <ul class="errors">
+                    <li v-show="!validation.name">Name cannot be empty.</li>
+                    <li  v-show="!validation.email">Please provide a valid email address.</li>
+                </ul>
+            </div>
+        </div>
+    </transition>
+</script>
+<!-- index -->
+<script type="text/x-template" id="index-template">
+    <div class="container">
+        <div>
+            <h1>this is a index page!</h1>
+            <button @click="getRouter">goBack</button>
+            <button @click="jumpGoodsDetail">jumpGoodsDetail</button>
+        </div>
+    </div>
+</script>
+<!-- goods -->
+<script type="text/x-template" id="goods-template">
+    <div class="container">this is goods page!</div>
+</script>
+<!-- user -->
+<script type="text/x-template" id="user-template">
+    <div class="container">
+        <p>
+            <router-link to="/user/1/profile/1">profile</router-link>
+        </p>
+        <router-view></router-view>
+    </div>
+</script>
+<!-- profile -->
+<script type="text/x-template" id="profile-template">
+    <div>user profile!{{id}}</div>
+</script>
+<!-- error -->
+<script type="text/x-template" id="error-template">
+    <div class='container'>404 error!</div>
+</script>
+<!-- Vue extends Components -->
+<script src="./js/login.js"></script>
+<script src="./js/index.js"></script>
+<script src="./js/goods.js"></script>
+<script src="./js/profile.js"></script>
+<script src="./js/error.js"></script>
+<script src="./js/user.js"></script>
+<script src="./index.js"></script>
+<!-- mount Component -->
+<script>
+    var vm = new Vue({
+        router
+    }).$mount('#root');
+</script>
+
+</html>

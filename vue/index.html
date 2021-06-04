@@ -11,14 +11,60 @@
 
 <body>
     <div id="demo">
-        <input :value="sth" @input="sth = $event.target.value" />
-         <p>{{sth}}</p>
+        <p>{{message}}</p>
+        <button @click="getChildComponent">ParentButton</button>
+        <global-component global-component-title="Vue" class="parent-box" inline-template>
+             <div>this is a inline-template</div>
+        </global-component>
+        <son-component ref="childComponent" v-on:parent-event="parentEvent" v-model="isTrue"></son-component>
     </div>
     <script>
-        new Vue({
+        Vue.component('global-component', {
+            inheritAttrs: false,
+            props: {
+                globalComponentTitle: String
+            },
+            template: `<div class="box">
+                    <h3>{{this.globalComponentTitle}}</h3>
+                    <p>Vue global component</p>
+                </div>`
+        })
+        var SonComponent = {
+            model: {
+                prop: 'checked',
+                event: 'change'
+            },
+            props: {
+                checked: Boolean
+            },
+            template: `<div>
+                    <p>Vue son component</p>
+                    <input type="checkbox" :checked ="checked" @change="$emit('change', $event.target.checked)">
+                    <button @click = "$emit('parent-event')">ChildButton</button>
+                </div>`
+        }
+        var vm = new Vue({
             el: '#demo',
             data: {
-                sth: "", 
+                message: "hello Vue!",
+                title: "Vue",
+                isTrue: false
+            },
+            components: {
+                SonComponent
+            },
+            watch: {
+                isTrue: function (e) {
+                    console.log(e)
+                }
+            },
+            methods: {
+                parentEvent: function () {
+                    alert('alert')
+                },
+                getChildComponent:function(){
+                    console.log(this.$refs.childComponent)
+                }
             }
         })
     </script>
