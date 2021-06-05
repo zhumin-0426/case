@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="./common/vuex.js"></script>
+    <title>Vuex</title>
+</head>
+
+<body>
+    <div id="root">
+        <h1>{{title}}</h1>
+        <product-top></product-top>
+        <product-bottom></product-bottom>
+    </div>
+</body>
+<script type="text/x-template" id="top-template">
+    <div class="container">
+        <h2>ProductTop</h2>
+        <ul class="fruits-box">
+            <template v-for="fruit in fruits">
+                <li class="fruit-item">{{fruit.name}}：{{fruit.price}}</li>
+            </template>
+        </ul>
+        <button @click="reducePrice">reducePrice</button>
+    </div>
+</script>
+
+<script type="text/x-template" id="bottom-template">
+    <div class="container">
+            <h2>ProductBottom</h2>
+            <ul class="fruits-box">
+                <template v-for="fruit in fruits">
+                    <li class="fruit-item">{{fruit.name}}:{{fruit.price}}</li>
+                </template>
+            </ul>
+            <button @click="reducePrice">reducePrice</button>
+    </div>
+</script>
+<script src="./js/top.js"></script>
+<script src="./js/bottom.js"></script>
+<script src="./js/vuex.js"></script>
+<script>
+    /**
+     * Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式,它采用集中式存储管理应用的所有组件的状态
+     * 并以相应的规则保证状态以一种可预测的方式发生变化
+     */
+    new Vue({
+        el: "#root",
+        store:store,
+        data: {
+            title: "hello Vuex!",
+        },
+        components: {
+            ProductTop,
+            ProductBottom
+        }
+    })
+</script>
+
+</html>
