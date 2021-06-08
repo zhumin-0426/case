@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue responsive</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    const data = {
+        a: 1
+    }
+
+    function walk(data) {
+        for (let key in data) {
+            const dep = []
+            let val = data[key]
+            // 如果 val 是对象，递归调用 walk 函数将其转为访问器属性
+            const nativeString = Object.prototype.toString.call(val)
+            if (nativeString === '[object Object]') {
+                walk(val)
+            }
+            Object.defineProperty(data, key, {
+                set(newVal) {
+                    if (newVal === val) return
+                    val = newVal
+                    dep.forEach(fn => fn())
+                },
+                get() {
+                    dep.push(Target)
+                    return val
+                }
+            })
+        }
+    }
+
+    walk(data)
+
+    // Target 是全局变量
+    let Target = null
+    function $watch(exp, fn) {
+        Target = fn
+        let pathArr,
+            obj = data
+        // 如果 exp 是函数，直接执行该函数
+        if (typeof exp === 'function') {
+            exp()
+            return
+        }
+        if (/\./.test(exp)) {
+            pathArr = exp.split('.')
+            pathArr.forEach(p => {
+                obj = obj[p]
+            })
+            return
+        }
+        data[exp]
+    }
+    $watch('a', () => {
+        console.log('第一个依赖')
+    })
+    $watch('a', () => {
+        console.log('第二个依赖')
+    })
+</script>
+
+</html>

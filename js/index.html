@@ -50,22 +50,11 @@
     /**
      * RegExp
      * */
-    var arr = [];
-    for(var i=1;i<=200;i++){
-        arr.push(i)
+    var arr = ["朱敏", "朱列虎", "朱小宝", "朱聪燕", "陈娇", "曾庆港"];
+    function show(arr) {
+        return Math.floor(Math.random() * parseInt(arr.length-1))
     }
-    function fn(arr) {
-        return arr.filter(function (val) {
-            for (let i = 2; i < val; i++) {
-                if (val % i === 0) {
-                    return false;
-                }
-            }
-            return val > 1;
-        })
-    }
-    var arr = fn(arr)
-    console.log(arr)
+    console.log([show(arr)])
 </script>
 
 </html>

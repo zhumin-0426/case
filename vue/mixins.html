@@ -11,7 +11,7 @@
 
 <body>
     <div id="root">
-        <button @click="alt">Button</button>
+        <button>Button</button>
     </div>
 </body>
 <script>
@@ -38,12 +38,10 @@
         template: "<div>this is a mixin component</div>"
     })
 
-    new Vue({
+    var vm = new Vue({
         el: "#root",
-        methods: {
-            alt: function () {
-                new Component().$mount('#root') // => "hello from mixin!"
-            }
+        mounted() {
+            new Component().$mount('#root') // => "hello from mixin!"
         }
     })
 </script>

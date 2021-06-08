@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>responsive array</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    // 要拦截的数组变异方法
+    const mutationMethods = [
+        'push',
+        'pop',
+        'shift',
+        'unshift',
+        'splice',
+        'sort',
+        'reverse'
+    ]
+
+    const arrayMethods = Object.create(Array.prototype) // 实现 arrayMethods.__proto__ === Array.prototype
+    const arrayProto = Array.prototype  // 缓存 Array.prototype
+
+    mutationMethods.forEach(method => {
+        arrayMethods[method] = function (...args) {
+            const result = arrayProto[method].apply(this, args)
+
+            console.log(`执行了代理原型的 ${method} 函数`)
+
+            return result
+        }
+    })
+    const arr = []
+    arr.__proto__ = arrayMethods
+
+    arr.push(1)
+    // 1.
+    // const arr = []
+    // const arrayKeys = Object.getOwnPropertyNames(arrayMethods)
+
+    // arrayKeys.forEach(method => {
+    //     arr[method] = arrayMethods[method]
+    // })
+
+    //2.
+    // arrayKeys.forEach(method => {
+    //     Object.defineProperty(arr, method, {
+    //         enumerable: false,
+    //         writable: true,
+    //         configurable: true,
+    //         value: arrayMethods[method]
+    //     })
+    // })
+</script>
+
+</html>

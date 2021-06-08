@@ -30,6 +30,11 @@
                 </div>`
         })
         var SonComponent = {
+            data:function(){
+                return {
+                    title:"Vue son component"
+                }
+            },
             model: {
                 prop: 'checked',
                 event: 'change'
@@ -38,7 +43,7 @@
                 checked: Boolean
             },
             template: `<div>
-                    <p>Vue son component</p>
+                    <p>{{title}}</p>
                     <input type="checkbox" :checked ="checked" @change="$emit('change', $event.target.checked)">
                     <button @click = "$emit('parent-event')">ChildButton</button>
                 </div>`
