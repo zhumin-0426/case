@@ -17,22 +17,19 @@
 </body>
 <script>
     var SonComponent = {
-        template:`<div>this is a son component</div>`
+        template: `<div>this is a son component</div>`
     }
     var vm = new Vue({
         el: "#demo",
         data: {
-            message: "hello Vue!"
+            message: ""
         },
-        components:{
+        components: {
             SonComponent
         },
-        beforeCreate() {
-            console.log('beforeCreate')
-        },
-        created() {
-            console.log('created')
-        },
+        mounted() {
+            this.message = 'hello Vue!'
+        }
     })
 </script>
 

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js for interator</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    var person = {
+        userInfo: ['Mrzhu', '25'],
+        [Symbol.iterator]: function () {
+            var index = 0;
+            var self = this;
+            return {
+                next: function () {
+                    if (index < self.userInfo.length) {
+                        return { value: self.userInfo[index++], done: false }
+                    } else {
+                        return { value: undefined, done: false }
+                    }
+                }
+            }
+        }
+    }
+    /**
+     * 原生封住
+     * */
+    var obj = {
+        0: 'a',
+        1: 'b',
+        2: 'c',
+        length: 3
+    }
+    function Item(target) {
+        this.target = target;
+        target[Symbol.iterator] = this.__proto__[Symbol.iterator];
+    }
+    Item.prototype[Symbol.iterator] = function () {
+        var index = 0;
+        var self = this;
+        var target = self.target;
+        return {
+            next: function () {
+                if (index < target.length) {
+                    return { value: target[index++], done: false }
+                } else {
+                    return { value: undefined, done: true }
+                }
+            },
+            return: function () {
+                return { value: undefined, done: true }
+            }
+        }
+    }
+    var item = new Item(obj);
+    for (const iterator of item) {
+        console.log(iterator)
+    }
+</script>
+
+</html>

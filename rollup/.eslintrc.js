@@ -1,7 +1,0 @@
-// eslint config file
-module.exports = {
-    "parserOptions": {
-        "ecmaVersion": 7,
-        "sourceType": "module"
-    }
-};

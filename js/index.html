@@ -9,52 +9,11 @@
 </head>
 
 <body>
-
+    <div id="root"></div>
 </body>
 <script>
-    /**
-     * 基本数据类型：undefined,unll,String,Number,Boolean,SynBol
-     * 引用数据类型：Object(Object衍生对象)
-    */
-
-    /**
-     * Number
-     * Number.Methods:Number(),parseInt(),parseflow(),isNaN(),isFinity(),infinity
-     * */
-
-    /**
-     * Array
-     * Array.Methods:concat(),push(),pop(),shift(),unshift(),slice(),splice(),reverse(),sort(),jion(),indexOf(),lastIndex()
-     * */
-    // var arr = [1, 2, 3, 4, 5];
-    // var newArr = arr.sort(function (value1, value2) {
-    //     if (value1 > value2) {
-    //         return -1
-    //     } else if (value1 < value2) {
-    //         return 1
-    //     } else {
-    //         return 0
-    //     }
-    // })
-    // 简写
-    // var newArr = arr.sort((value1, value2) => {
-    //     return (value1 > value2 ? -1 : value1 < value2 ? 1 : 0)
-    // })
-
-    /**
-     * Date
-     * */
-    // var date = new Date()
-    // console.log(date.getHours())
-
-    /**
-     * RegExp
-     * */
-    var arr = ["朱敏", "朱列虎", "朱小宝", "朱聪燕", "陈娇", "曾庆港"];
-    function show(arr) {
-        return Math.floor(Math.random() * parseInt(arr.length-1))
-    }
-    console.log([show(arr)])
+    var root = document.querySelector('#root');
+    console.log(root)
 </script>
 
 </html>
