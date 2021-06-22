@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tab</title>
+</head>
+<style>
+    *{
+        text-decoration: none;
+        list-style: none;
+    }
+    .tab{
+        display: flex;
+    }
+    .tab>li{
+        margin-right: 20px;
+    }
+    .tab li{
+        cursor: pointer;
+    }
+    .tab li.active{
+        border-bottom: solid 2px red;
+    }
+    .tab-obj{
+        display: flex;
+    }
+    .tab-obj>li{
+        margin-right: 20px;
+    }
+    .tab-obj li{
+        display: none;
+    } 
+    .tab-obj li.active{
+        display: block;
+    }
+</style>
+<body>
+    <div class="container">
+        <ul class="tab">
+            <li class="active">window1</li>
+            <li>window2</li>
+        </ul>
+        <ul class="tab-obj">
+            <li class="active">1</li>
+            <li>2</li>
+        </ul>
+    </div>
+</body>
+<script src="../js/jquery.js"></script>
+<script>
+    $('.tab li').on('click',function(){
+        var idx = $(this).index();
+        $(this).addClass('active').siblings().removeClass('active')
+        $('.tab-obj li').eq(idx).addClass('active').siblings().removeClass('active')
+    })
+</script>
+</html>
