@@ -60,8 +60,52 @@ class BasePromise {
  * 可以获取到，实现的思路：在执行then方法时，我们返回一个promise对象，并将上一个then方法中的回调函数返回的值
  * 传递到then方法返回的promise对象中，就可以实现promise的穿透性
  * */
-function resolvePromise(promise2, x, resolve, reject) {
 
+/**
+ * @promise2 返回的promise对象
+ * @x then方法中resolve函数的返回值
+ * @resolve 返回的promise对象中的resolve函数
+ * @reject 返回的promise对象中的reject函数
+ * */
+function resolvePromise(promise2, x, resolve, reject) {
+  // 如果自己等待自己完成则是错误的实现，用一个类型错误，结束掉promise
+  if (promise2 === x) {
+    return reject(new TypeError('Chaining cycle detected for promise #<Promise>'));
+  }
+  let called;                              // 是否已调用，只调用一次
+  // 当x返回值不为普通值时
+  if ((typeof x === 'object' && x !== null) || typeof x === "function") {
+    try {
+      // 为了判断resolve执行过就不再reject了(如reject与resolve同时调用的时候)
+      let then = x.then;
+      if (typeof then === 'function') {
+        // 不要写成x.then，直接then.call就可以了, 因为x.then会再次取值。
+        then.call(x, y => {
+          // 如果执行过，则不再执行
+          if (called) { return; }
+
+          called = true;
+          // 递归解析(因为可能promise中还有promise)
+          resolvePromise(promise2, y, resolve, reject);
+        }, r => {
+          // 只要失败就reject
+          if (called) { return; }
+          called = true;
+          reject(r)
+        })
+      }
+      else {
+        // 如果x.then是一个普通值就直接返回resolve作为结果
+        resolve(x);
+      }
+    } catch (error) {
+      if (called) { return; }
+      called = true;
+      reject(error);
+    }
+  } else {
+    resolve(x)
+  }
 }
 
 class FullPromise extends BasePromise {
@@ -86,6 +130,39 @@ class FullPromise extends BasePromise {
           }
         }, 0)
       }
+
+      if (this.state === REJECTED) {
+        setTimeout(() => {
+          try {
+            let x = rejectCallBack(this.reason);
+            resolvePromise(promise2, x, resolve, reject)
+          } catch (error) {
+            reject(error)
+          }
+        }, 0)
+      }
+
+      if (this.status === PENDING) {
+        this.resolveCallBackQueue.push(() => {
+          try {
+            const x = resolveCallBack(this.value);
+            resolvePromise(promise2, x, resolve, reject);
+          }
+          catch (error) {
+            reject(error);
+          }
+        });
+
+        this.rejectCallBackQueue.push(() => {
+          try {
+            const x = rejectCallBack(this.reason);
+            resolvePromise(promise2, x, resolve, reject);
+          }
+          catch (error) {
+            reject(error);
+          }
+        });
+      }
     })
 
     return promise2;
@@ -93,5 +170,6 @@ class FullPromise extends BasePromise {
 }
 
 module.exports = {
-  BasePromise
+  BasePromise,
+  FullPromise
 }

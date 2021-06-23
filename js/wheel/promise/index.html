@@ -18,13 +18,6 @@
             reject("error")
         }
     })
-    console.log(promise)
-    promise.then(function(res){
-        return '链式调用'
-    },function(err){
-        console.log('err',err)
-    }).then(res=>{
-        console.log(res)
-    })
+    console.log(promise.then)
 </script>
 </html>
