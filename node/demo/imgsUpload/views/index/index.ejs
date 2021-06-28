@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多文件上传</title>
+</head>
+<style>
+    *{
+        list-style: none;
+        text-decoration: none;
+    }
+    .list{
+        display: flex;
+    }
+    .list li{
+        width: 50px;
+        height: 50px;
+        margin-right: 20px;
+    }
+    .list li img{
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+    }
+</style>
+<body>
+    <div class="container">
+        <h2>多文件上传</h2>
+        <ul class="list">
+            <!-- <li>
+                <img src="http://127.0.0.1:3000/static/images/apple.jpeg" alt="">
+            </li> -->
+            <%if(imgList.length>0){%>
+                <%for(var i=0;i<imgList.length;i++){%>
+                    <li>
+                        <img src=<%=imgList[i]%> alt="">
+                    </li>
+                <%}%>
+            <%}%>
+        </ul>
+        <div class="upload-box">
+            <form method="post" action="/upload" enctype="multipart/form-data">
+                请选择文件：<input type="file" id="file" name="file" multiple /><br />
+                <input type="submit" value="上传文件" />
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
