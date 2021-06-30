@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>优化table</title>
+</head>
+<style>
+    .container {
+        width: 50%;
+        margin: 0 auto;
+    }
+
+    .container table {
+        width: 100%;
+    }
+
+    .img {
+        display: block;
+        max-width: 50px;
+        max-height: 50px;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <h2>table表格优化</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" name="checkAll">
+                    </th>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Img
+                    </th>
+                    <th>
+                        Size
+                    </th>
+                    <th>
+                        Suf
+                    </th>
+                    <th>
+                        Time
+                    </th>
+                    <th>
+                        Handle
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="tbody">
+                <!-- <tr>
+                    <td>
+                        <input type="checkbox" name="check">
+                    </td>
+                    <td>
+                        1
+                    </td>
+                    <td>
+                        苹果
+                    </td>
+                    <td>
+                        <img class="img" src="http://127.0.0.1:3000/static/images/apple.jpeg" alt="">
+                    </td>
+                    <td>
+                        100KB
+                    </td>
+                    <td>
+                        .jpeg
+                    </td>
+                    <td>
+                        2021-6-29
+                    </td>
+                    <td>
+                        <button>删除</button>
+                    </td>
+                </tr> -->
+            </tbody>
+        </table>
+    </div>
+</body>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    const tbody = document.getElementsByClassName('tbody')[0];
+    axios('http://127.0.0.1:3000/list').then(res=>{
+        const list = res.data.list;
+        let html = "";
+        list.forEach(item=>{
+            html += `<tr>
+                    <td>
+                        <input type="checkbox" name="check">
+                    </td>
+                    <td>
+                        ${item.id}
+                    </td>
+                    <td>
+                        ${item.name}
+                    </td>
+                    <td>
+                        <img class="img" src="${item.img}" alt="">
+                    </td>
+                    <td>
+                        ${item.size}
+                    </td>
+                    <td>
+                        ${item.suf}
+                    </td>
+                    <td>
+                        ${item.time}
+                    </td>
+                    <td>
+                        <button>Del</button>
+                    </td>
+                </tr>`
+        })
+        tbody.innerHTML = html
+    });
+</script>
+</html>
