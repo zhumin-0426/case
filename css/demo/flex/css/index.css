@@ -1,0 +1,195 @@
+* {
+  list-style: none;
+  text-decoration: none;
+  padding: 0;
+  margin: 0;
+}
+.container {
+  padding: 20px;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-around;
+}
+.container .dice-one {
+  padding: 5px;
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  background-color: #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container .dice-one .point {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #000;
+}
+.container .dice-two {
+  padding: 5px;
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  background-color: #ccc;
+  display: flex;
+  justify-content: space-between;
+}
+.container .dice-two .point:first-child {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #000;
+}
+.container .dice-two .point:last-child {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #000;
+  align-self: flex-end;
+}
+.container .dice-three {
+  padding: 5px;
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  background-color: #ccc;
+  display: flex;
+  justify-content: space-between;
+}
+.container .dice-three .point {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #000;
+}
+.container .dice-three .point:nth-child(even) {
+  align-self: center;
+}
+.container .dice-three .point:last-child {
+  align-self: flex-end;
+}
+.container .dice-fore {
+  padding: 5px;
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  background-color: #ccc;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+}
+.container .dice-fore .top {
+  flex-basis: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.container .dice-fore .top .point {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #000;
+}
+.container .dice-fore .bottom {
+  flex-basis: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.container .dice-fore .bottom .point {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #000;
+}
+.container .dice-five {
+  padding: 5px;
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  background-color: #ccc;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-around;
+}
+.container .dice-five .top {
+  flex-basis: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.container .dice-five .top .point {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #000;
+}
+.container .dice-five .top .middle {
+  align-self: center;
+}
+.container .dice-five .middle {
+  display: flex;
+  justify-content: center;
+  flex-basis: 100%;
+}
+.container .dice-five .middle .point {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #000;
+}
+.container .dice-five .bottom {
+  flex-basis: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.container .dice-five .bottom .point {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #000;
+}
+.container .dice-six {
+  padding: 5px;
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  background-color: #ccc;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-around;
+}
+.container .dice-six .top {
+  flex-basis: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.container .dice-six .top .point {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #000;
+}
+.container .dice-six .top .middle {
+  align-self: center;
+}
+.container .dice-six .middle {
+  display: flex;
+  justify-content: space-between;
+  flex-basis: 100%;
+}
+.container .dice-six .middle .point {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #000;
+}
+.container .dice-six .bottom {
+  flex-basis: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.container .dice-six .bottom .point {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #000;
+}

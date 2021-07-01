@@ -1,0 +1,196 @@
+*{
+    list-style: none;
+    text-decoration: none;
+    padding: 0;
+    margin: 0;
+}
+.container{
+    padding: 20px;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-around;
+    .dice-one{
+        padding: 5px;
+        width: 80px;
+        height: 80px;
+        border-radius: 10px;
+        background-color: #ccc;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .point{
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #000;
+        }
+    }
+    .dice-two{
+        padding: 5px;
+        width: 80px;
+        height: 80px;
+        border-radius: 10px;
+        background-color: #ccc;
+        display: flex;
+        justify-content: space-between;
+        .point:first-child{
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #000;
+        }
+        .point:last-child{
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #000;
+            align-self: flex-end;
+
+        }
+    }
+    .dice-three{
+        padding: 5px;
+        width: 80px;
+        height: 80px;
+        border-radius: 10px;
+        background-color: #ccc;
+        display: flex;
+        justify-content: space-between;
+        .point{
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #000;
+        }
+        .point:nth-child(even){
+            align-self: center;
+        }
+        .point:last-child{
+            align-self: flex-end;
+        }
+    }
+    .dice-fore{
+        padding: 5px;
+        width: 80px;
+        height: 80px;
+        border-radius: 10px;
+        background-color: #ccc;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: space-between;
+        .top{
+            flex-basis: 100%;
+            display: flex;
+            justify-content: space-between;
+            .point{
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background-color: #000;
+            }
+        }
+        .bottom{
+            flex-basis: 100%;
+            display: flex;
+            justify-content: space-between;
+            .point{
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background-color: #000;
+            }
+        }
+    }
+    .dice-five{
+        padding: 5px;
+        width: 80px;
+        height: 80px;
+        border-radius: 10px;
+        background-color: #ccc;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: space-around;
+        .top{
+            flex-basis: 100%;
+            display: flex;
+            justify-content: space-between;
+            .point{
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background-color: #000;
+            }
+            .middle{
+                align-self: center;
+            }
+        }
+        .middle{
+            display: flex;
+            justify-content: center;
+            flex-basis: 100%;
+            .point{
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background-color: #000;
+            }
+        }
+        .bottom{
+            flex-basis: 100%;
+            display: flex;
+            justify-content: space-between;
+            .point{
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background-color: #000;
+            }
+        }
+    }
+    .dice-six{
+        padding: 5px;
+        width: 80px;
+        height: 80px;
+        border-radius: 10px;
+        background-color: #ccc;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: space-around;
+        .top{
+            flex-basis: 100%;
+            display: flex;
+            justify-content: space-between;
+            .point{
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background-color: #000;
+            }
+            .middle{
+                align-self: center;
+            }
+        }
+        .middle{
+            display: flex;
+            justify-content: space-between;
+            flex-basis: 100%;
+            .point{
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background-color: #000;
+            }
+        }
+        .bottom{
+            flex-basis: 100%;
+            display: flex;
+            justify-content: space-between;
+            .point{
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background-color: #000;
+            }
+        }
+    }
+}
