@@ -16,7 +16,7 @@
 - 'name':'+step':value
 
 ## 数据占位符定义规范
-具体看文档示例：https://github.com/nuysoft/Mock/wiki/Syntax-Specification
+具体看文档示例：[Mock.js](https://github.com/nuysoft/Mock/wiki/Syntax-Specification "Mock.js官方文档")
 
 ## Mock.mock
 - Mock.mock(template) 
@@ -73,7 +73,7 @@ timeout:可选，指定被拦截的 Ajax 请求的响应时间，单位是毫秒
 ```
 - Mock.Random
 Mock.Random 是一个工具类，用于生成各种随机数据，Mock.Random 中的方法与数据模板的 @占位符 一一对应
-具体可翻看文档（https://github.com/nuysoft/Mock/wiki/Mock.Random）
+具体可翻看文档 ['Mock.js'](https://github.com/nuysoft/Mock/wiki/Mock.Random "Mock.js文档")
 - Mock.valid
 校验真实数据 data 是否与数据模板 template 匹配
 ```js

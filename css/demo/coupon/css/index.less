@@ -1,0 +1,33 @@
+@width4:4px;
+*{
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    list-style: none;
+}
+.bor{
+    border: solid @width4+6px red;
+}
+.container{
+    .bor();
+}
+@min768: ~"(min-width: 768px)";//简写 : (min-width:768px);
+.container {
+    @media @min768 {
+        border: solid @width4 black;
+    }
+}
+
+/*
+房贷首付
+*/
+#bundle() {
+    .button {
+        display: block;
+        border: 1px solid black;
+        background-color: grey;
+        &:hover {
+            background-color: white;
+        }
+    }
+}
