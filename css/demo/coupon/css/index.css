@@ -1,20 +1,6 @@
-* {
-  padding: 0;
-  margin: 0;
-  text-decoration: none;
-  list-style: none;
+.container .coupon {
+  width: 200px;
+  height: 80px;
+  background-color: red;
+  -webkit-mask: radial-gradient(circle at 0, #0000 10px, red 0);
 }
-.bor {
-  border: solid 10px red;
-}
-.container {
-  border: solid 10px red;
-}
-@media (min-width: 768px) {
-  .container {
-    border: solid 4px black;
-  }
-}
-/*
-房贷首付
-*/

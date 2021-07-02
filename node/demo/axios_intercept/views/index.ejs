@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页</title>
+</head>
+
+<body>
+    <h2>index</h2>
+</body>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    window.onload = function () {
+        const instance = axios.create({
+            baseURL: "http://127.0.0.1:3000/",
+            data: {}
+        })
+        // 请求拦截
+        instance.interceptors.request.use(function (config) {
+            const id = localStorage.getItem('id');
+            if (id) {
+                config.transformRequest = [function (data) {
+                    console.log('data', data)
+                    data = {
+                        id: id
+                    }
+                    return JSON.stringify(data);
+                }]
+                return config;
+            } else {
+                return false;
+            }
+        }, function (error) {
+            console.log('error', error)
+        });
+
+        instance.post('isLogin').then(response => {
+            console.log('response', response)
+        }).catch(error => {
+            if (error) {
+                console.log('error', error)
+            }
+        })
+    }
+</script>
+
+</html>
