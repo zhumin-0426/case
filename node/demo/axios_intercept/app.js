@@ -47,7 +47,14 @@ app.post('/login', (req, res) => {
 app.post('/isLogin', (req, res) => {
     console.log(req.body)
     const obj = JSON.parse(Object.keys(req.body)[0])
-    console.log(obj)
+    console.log(obj);
+    if(obj.id){
+        res.status(200)
+        res.json({
+            status:"success"
+        })
+        res.end()
+    }
 })
 // 首页
 app.get('/index', (req, res) => {
