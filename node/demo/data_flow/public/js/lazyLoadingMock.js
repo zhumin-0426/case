@@ -8,8 +8,8 @@ const template = {
     }]
 }
 
-const Data = Mock.mock(template)
+const lazyLoadingData = Mock.mock(template)
 
 module.exports = {
-    Data
+    lazyLoadingData
 }

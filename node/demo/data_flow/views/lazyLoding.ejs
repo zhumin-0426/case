@@ -78,7 +78,7 @@
             const instance = axios.create({
                 baseURL: "http://127.0.0.1:3000/"
             })
-            instance.post('getData').then(res => {
+            instance.post('getLazyLoadingData').then(res => {
                 const data = res.data.Data.flow;
                 let html = '';
                 data.forEach(item => {
@@ -122,7 +122,7 @@
             }
         }
     }
-    window, onscroll = () => {
+    window.onscroll = () => {
         let fn = debounce(lazyLoading, 600);
         fn(imgs, seeHeight)
     }

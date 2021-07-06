@@ -2,128 +2,114 @@
 <html lang="en">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>无限滚动中的虚拟列表(只渲染可视区域，dom元素可复用)</title>
-    <meta name="viewport" content="initial-scale=1.0">
-    <meta name="format-detection" content="telephone=no, email=no">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
+<style>
+    * {
+        list-style: none;
+        text-decoration: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .virtual-list {
+        position: relative;
+        overflow: auto;
+        width: 300px;
+        height: 400px;
+        margin: 0 auto;
+        border: solid 1px #ccc;
+    }
+
+    .virtual-list .virtual-list-phantom {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    .virtual-list .virtual-list-content {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+    }
+
+    .virtual-list .virtual-list-content .cell {
+        box-sizing: border-box;
+        padding: 5px;
+        line-height: 30px;
+        height: 30px;
+        color: #ccc;
+        text-align: center;
+    }
+</style>
 
 <body>
-    <header>
-        <h1>无限滚动中的虚拟列表-防抖和节流(只渲染可视区域，dom元素可复用)</h1>
-        <!-- <h1>无限滚动中的虚拟列表(只渲染可视区域，dom元素可复用)</h1> -->
-    </header>
-    </article>
-    <article class="d-part d-effect">
-        <style>
-            .container {
-                height: 600px;
-                overflow: auto;
-            }
-
-            .item {
-                min-height: 60px;
-                border-bottom: 1px solid #cccccc;
-                border-top: 1px solid #cccccc;
-                width: 100%;
-                text-align: center;
-                background-color: darkgray;
-                /* padding: 30px 0;
-                box-sizing: border-box; */
-            }
-        </style>
-        <div class="container">
-            <div class="content">
-                <div class="viewArea">
-                    <div class="item">0</div>
-                    <div class="item">1</div>
-                    <div class="item">2</div>
-                    <div class="item">3</div>
-                    <div class="item">4</div>
-                    <div class="item">5</div>
-                    <div class="item">6</div>
-                    <div class="item">7</div>
-                    <div class="item">8</div>
-                    <div class="item">9</div>
-                </div>
-
-            </div>
-        </div>
-        <script>
-            var item = document.querySelector('.viewArea .item');
-            var container = document.querySelector('.container');
-
-            console.log(item);
-            var start = 0; // 开始位置
-            var pageSize = 10; // 每页展示的数据
-            var total = 100000; //数据总长度
-
-            // var itemHeight = 61; // 每个item的高度
-            var itemStyle = getComputedStyle(item);
-            var itemHeight = Number(itemStyle.height.split('px')[0]) + Number(itemStyle.borderTopWidth.split('px')[0]) + Number(itemStyle.borderBottomWidth.split('px')[0]); // 每个item的高度
-            console.log('itemHeight', itemHeight);
-
-
-            // 设置数据列表的总高度
-            document.querySelector('.container .content').style.height = itemHeight * total + 'px';
-            updateDom(start, pageSize, itemHeight, 0);
-            function updateDom(start, pageSize, itemHeight, height) {
-                document.querySelector('.container .content .viewArea').style.transform = 'translateY(' + height + 'px)';
-                let all = document.querySelectorAll(' .viewArea .item');
-                for (var i = start, itemIndex = 0, len = start + pageSize; i < len; i++, itemIndex++) {
-                    var index = i % pageSize;
-                    all[itemIndex].innerHTML = i;
-                }
-            }
-            // 滚动处理函数
-            function handleScroller() {
-                var lastStart = 0; // 上次开始的位置
-                return () => {
-                    var currentScrollTop = container.scrollTop;
-                    var fixedScrollTop = currentScrollTop - currentScrollTop % itemHeight;
-                    var start = Math.floor(currentScrollTop / itemHeight);
-
-                    if (lastStart !== start) {
-                        lastStart = start;
-                        updateDom(start, pageSize, itemHeight, fixedScrollTop);
-                    }
-                }
-            }
-            // 防抖和节流
-            function throttle(fn, delay, atleast) {
-                let timer = null;
-                let rAFtimer = null;
-                let previous = 0;
-
-                return function () {
-                    let now = Date.now();
-                    if (now - previous > atleast) {
-                        console.log('now - previous > atleast');
-                        fn();
-                        previous = now;
-                    } else {
-                        if (delay > 20) {
-                            console.log('delay > 20');
-                            clearTimeout(timer);
-                            timer = setTimeout(function () {
-                                fn();
-                                previous = 0;
-                            }, delay);
-                        } else {
-                            console.log('delay < 20');
-                            cancelAnimationFrame(rAFtimer);
-                            rAFtimer = requestAnimationFrame(function () {
-                                requestIdleCallback(fn);
-                            });
-                        }
-                    }
-                }
-            }
-            document.querySelector('.container').addEventListener('scroll', throttle(handleScroller(), 16, 500), false);
-            // document.querySelector('.container').addEventListener('scroll', handleScroller(), false);
-        </script>
-    </article>
+    <h2>数据流-虚拟长列表</h2>
+    <div class="virtual-list">
+        <div class="virtual-list-phantom"></div>
+        <ul class="virtual-list-content">
+            <li class="cell"></li>
+        </ul>
     </div>
 </body>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    const virtualList = document.getElementsByClassName('virtual-list')[0];
+    const virtualListContent = document.getElementsByClassName('virtual-list-content')[0];
+    const virtualListPhantom = document.getElementsByClassName('virtual-list-phantom')[0];
+    let data = null;
+    let listData = null;
+    // 数据初始化
+    (() => {
+        const instance = axios.create({
+            baseURL: "http://127.0.0.1:3000/"
+        })
+
+        instance.post('getVirtualListData').then(res => {
+            data = res.data.list;
+            // 计算数据总高度
+            virtualListContentHeight = data.length * 30 + 'px';
+            // 设置virtual-list-phantom不可见元素的高度
+            virtualListPhantom.style.height = virtualListContentHeight;
+            updateVisibleData()
+        }).catch(err => {
+            if (err) {
+                console.log('err', err)
+            }
+        })
+    })()
+    // 计算开始/结束下表
+    
+    //更新可见区域数据
+    const updateVisibleData = (virtualListScrollTop) => {
+        virtualListScrollTop = virtualListScrollTop || 0;
+        console.log('virtualListScrollTop',virtualListScrollTop)
+        // 获取可见区域可见列表的数量
+        const visibleCount = Math.ceil(virtualList.clientHeight / 30)
+        // 获取可见区域起始数据的下标
+        const start = Math.floor(virtualListScrollTop / 30)
+        // 获取可见区域结束位置下标
+        const end = start + visibleCount
+        // 计算可视区域对应的数据
+        listData = data.slice(start,end);
+        let html = ""
+        listData.forEach(item => {
+            html += `<li class="cell">${item.id}</li>`
+        })
+        virtualListContent.innerHTML = html;
+        virtualListContent.style.webkitTransform = `translate3d(0, ${ start * 30 }px, 0)`;
+    }
+    virtualList.onscroll = () => {
+        let virtualListScrollTop = virtualList.scrollTop;
+        updateVisibleData(virtualListScrollTop)
+    }
+</script>
 
 </html>
