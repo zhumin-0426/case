@@ -66,6 +66,7 @@
     const virtualListPhantom = document.getElementsByClassName('virtual-list-phantom')[0];
     let data = null;
     let listData = null;
+    let customHeight = 10;
     // 数据初始化
     (() => {
         const instance = axios.create({
@@ -74,37 +75,69 @@
 
         instance.post('getVirtualListData').then(res => {
             data = res.data.list;
-            // 计算数据总高度
-            virtualListContentHeight = data.length * 30 + 'px';
-            // 设置virtual-list-phantom不可见元素的高度
-            virtualListPhantom.style.height = virtualListContentHeight;
             updateVisibleData()
+            // 计算总高度
+            var virtualListContentHeight = data.length * (30 + customHeight) + 'px';
+            virtualListPhantom.style.height = virtualListContentHeight;
         }).catch(err => {
             if (err) {
                 console.log('err', err)
             }
         })
     })()
-    // 计算开始/结束下表
-    
+
+    // 计算开始/结束下标
+    const findNearestItemIndex = (virtualListScrollTop) => {
+        let total = 0;
+        for (let i = 0, j = data.length; i < j; i++) {
+            const size = customHeight + 30
+            total += size;
+            if (total >= virtualListScrollTop || i === j - 1) {
+                return i
+            }
+        }
+        return 0;
+    }
+    // 计算Y轴线上的top
+    function getItemSizeAndOffset(index) {
+        let total = 0;
+        for (let i = 0, j = Math.min(index, data.length - 1); i <= j; i++) {
+            const size = customHeight + 30
+            if (i === j) {
+                return {
+                    offset: total,
+                    size
+                };
+            }
+            total += size;
+        }
+
+        return {
+            offset: 0,
+            size: 0
+        };
+    }
     //更新可见区域数据
     const updateVisibleData = (virtualListScrollTop) => {
         virtualListScrollTop = virtualListScrollTop || 0;
-        console.log('virtualListScrollTop',virtualListScrollTop)
-        // 获取可见区域可见列表的数量
-        const visibleCount = Math.ceil(virtualList.clientHeight / 30)
         // 获取可见区域起始数据的下标
-        const start = Math.floor(virtualListScrollTop / 30)
+        const start = findNearestItemIndex(virtualListScrollTop)
         // 获取可见区域结束位置下标
-        const end = start + visibleCount
+        const end = findNearestItemIndex(virtualListScrollTop + virtualList.clientHeight)
         // 计算可视区域对应的数据
-        listData = data.slice(start,end);
+        listData = data.slice(start, Math.min(end + 1, data.length));
         let html = ""
         listData.forEach(item => {
             html += `<li class="cell">${item.id}</li>`
         })
         virtualListContent.innerHTML = html;
-        virtualListContent.style.webkitTransform = `translate3d(0, ${ start * 30 }px, 0)`;
+        // 给列表项添加自定义高度
+        const cell = document.querySelectorAll('.cell');
+        for (var i = 0; i < cell.length; i++) {
+            cell[i].style.height = 30 + customHeight + 'px'
+        }
+        // 把可见区域的 top 设置为起始元素在整个列表中的位置（使用 transform 是为了更好的性能）
+        virtualListContent.style.webkitTransform = `translate3d(0, ${getItemSizeAndOffset(start).offset}px, 0)`;
     }
     virtualList.onscroll = () => {
         let virtualListScrollTop = virtualList.scrollTop;
