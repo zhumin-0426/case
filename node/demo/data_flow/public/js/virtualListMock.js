@@ -2,7 +2,8 @@ const Mock = require('mockjs')
 
 const template = {
     'list|1000':[{
-        'id|+1':0
+        'id|+1':0,
+        'img':'@image'
     }]
 }
 

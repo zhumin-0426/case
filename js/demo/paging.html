@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        list-style: none;
+    }
+
+    .page-box {
+        width: 500px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .page-box .cell {
+        padding: 5px 15px;
+        background-color: #eee;
+        border-radius: 5px;
+        color: #333;
+    }
+
+    .page-box .cell.active {
+        background-color: #409eff;
+        color: #fff;
+    }
+
+    .page-box .prev {
+        cursor: pointer;
+    }
+
+    .page-box .next {
+        cursor: pointer;
+    }
+</style>
+
+<body>
+    <h2>分页</h2>
+    <ul class="page-box">
+        <li class="cell prev">上一页</li>
+        <li class="cell">1</li>
+        <li class="cell active">2</li>
+        <li class="cell">3</li>
+        <li class="cell">4</li>
+        <li class="cell">5</li>
+        <li class="cell next">下一页</li>
+    </ul>
+</body>
+<script>
+    const box = document.querySelector('.page-box')
+    const li = document.getElementsByTagName('li')
+    const prev = document.querySelector('.prev')
+    const next = document.querySelector('.next')
+    let liNodesList = Array.from(li).slice(1, li.length - 1);
+    let idx = 0;
+    // 上一页
+    prev.onclick = function () {
+        for (var i = 0, j = liNodesList.length; i < j; i++) {
+            console.log(liNodesList[i].className);
+            if (liNodesList[i].className === 'cell active' && i !== 0) {
+                idx = i;
+            }
+            liNodesList[i].className = 'cell'
+        }
+        if (idx !== 0) {
+            liNodesList[idx - 1].className = 'cell active'
+        } else {
+            liNodesList[idx].className = 'cell active'
+        }
+    }
+    // 下一页
+    next.onclick = function () {
+        console.log('下一页')
+        for (let i = 0, j = liNodesList.length; i < j; i++) {
+            if (liNodesList[i].className === 'cell active' && i !== liNodesList.length) {
+                liNodesList[i].className = 'cell'
+                idx = i;
+            }
+        }
+        if (idx !== liNodesList.length) {
+            if (idx < 4) {
+                liNodesList[idx + 1].className = 'cell active'
+            } else {
+                html = ''
+                html += ' <li class="cell prev">上一页</li>'
+                for (let i = 0, j = liNodesList.length; i < j; i++) {
+                    html += `
+                        <li class="cell">${i + 2}</li>
+                    `
+                }
+                html += ' <li class="cell next">下一页</li>';
+                box.innerHTML = html;
+            }
+        } else {
+        }
+    }
+</script>
+
+</html>
