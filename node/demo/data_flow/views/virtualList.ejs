@@ -67,6 +67,8 @@
     let data = null;
     let listData = null;
     let customHeight = 10;
+    let lastMeasuredIndex = -1;
+    let sizeAndOffsetCahce = {};
     // 数据初始化
     (() => {
         const instance = axios.create({
@@ -91,6 +93,7 @@
         let total = 0;
         for (let i = 0, j = data.length; i < j; i++) {
             const size = customHeight + 30
+            // getItemSizeAndOffset(i).size
             total += size;
             if (total >= virtualListScrollTop || i === j - 1) {
                 return i
@@ -100,22 +103,44 @@
     }
     // 计算Y轴线上的top
     function getItemSizeAndOffset(index) {
-        let total = 0;
-        for (let i = 0, j = Math.min(index, data.length - 1); i <= j; i++) {
-            const size = customHeight + 30
-            if (i === j) {
-                return {
-                    offset: total,
-                    size
-                };
-            }
-            total += size;
+        if (lastMeasuredIndex >= index) {
+            return sizeAndOffsetCahce[index];
         }
+        let offset = 0;
+        if (lastMeasuredIndex >= 0) {
+            const lastMeasured = sizeAndOffsetCahce[lastMeasuredIndex];
+            if (lastMeasured) {
+                offset = lastMeasured.offset + lastMeasured.size;
+            }
+        }
+        for (let i = lastMeasuredIndex + 1; i <= index; i++) {
+            const item = data[i];
+            // const size = itemSizeGetter.call(null, item, i);
+            const size = customHeight + 30
+            sizeAndOffsetCahce[i] = {
+                size,
+                offset
+            };
+            offset += size;
+        }
+        lastMeasuredIndex = index;
+        return sizeAndOffsetCahce[index];
+        // let total = 0;
+        // for (let i = 0, j = Math.min(index, data.length - 1); i <= j; i++) {
+        //     const size = customHeight + 30
+        //     if (i === j) {
+        //         return {
+        //             offset: total,
+        //             size
+        //         };
+        //     }
+        //     total += size;
+        // }
 
-        return {
-            offset: 0,
-            size: 0
-        };
+        // return {
+        //     offset: 0,
+        //     size: 0
+        // };
     }
     //更新可见区域数据
     const updateVisibleData = (virtualListScrollTop) => {

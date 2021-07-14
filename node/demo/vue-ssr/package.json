@@ -1,0 +1,17 @@
+{
+  "name": "vue-ssr",
+  "version": "1.0.0",
+  "description": "服务端渲染优势<br/> 1.更好的 SEO，由于搜索引擎爬虫抓取工具可以直接查看完全渲染的页面<br/> 2.更快的内容到达时间 (time-to-content)，特别是对于缓慢的网络情况或运行缓慢的设备<br/>",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.10",
+    "vue": "^2.6.14",
+    "vue-server-renderer": "^2.6.14"
+  }
+}
